@@ -38,8 +38,8 @@ export const adminAuthValidation = (req, res, next) => {
 
 
   export const mentorAuthValidation = (req, res, next) => {
-    const authToken = req.cookies["auth-token"]?.authToken;
-    const userType = req.cookies["userType"]?.userType;
+    const authToken = req.cookies["auth-token"].authToken;
+    const userType = req.cookies["userType"].userType;
     if (userType !== "mentor") {
       return res.status(401).json({ message: "You are not authorized to access this route." });
     }
@@ -62,8 +62,8 @@ export const adminAuthValidation = (req, res, next) => {
 
 
   export const aprenantAuthValidation = (req, res, next) => {
-    const authToken = req.cookies["auth-token"]?.authToken;
-    const userType = req.cookies["userType"]?.userType;
+    const authToken = req.cookies["auth-token"].authToken;
+    const userType = req.cookies["userType"].userType;
   
     if (userType !== "aprenant") {
       next();

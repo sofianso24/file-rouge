@@ -123,4 +123,56 @@ export const logIn = async (req, res) => {
       res.json(error);
     }
   };
+
+  // delete a user :
+
+export const deleteUser = async (req, res) => {
+    try {
+      const id = req.params.id;
+      const user = await User.findByIdAndDelete(id);
+      res.send("profile is deleted");
+    } catch (err) {
+      res.send(err);
+    }
+  };
+  
+  // update a user :
+
+export const updateUser = async (req, res) => {
+    try {
+      const id = req.params.id;
+      const user = await User.findById(id);
+      const updateUser = await user.updateOne({
+        nom: req.body.nom,
+        prenom: req.body.prenom,
+        mail: req.body.mail,
+        password: req.body.password,
+      });
+      res.send(updateUser);
+    } catch (err) {
+      res.send(err);
+    }
+  };
+  
+// get all users 
+
+  export const getAllUsers = async (req, res) => {
+    try {
+      const users = await User.find();
+      res.json(users);
+    } catch (error) {
+      res.json(error);
+    }
+  };
+
+// delete all users 
+
+  export const deleteAllUsers = async (req, res) => {
+    try {
+      await User.deleteMany();
+      res.json("all users deleted");
+    } catch (error) {
+      res.json(error);
+    }
+  };
   

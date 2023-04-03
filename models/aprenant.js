@@ -25,7 +25,7 @@ const aprenantSchema = new Schema(
         required : true,
     },
     but : {
-        type : [string],
+        type : String,
         required : true
     },
     progres: {
