@@ -9,6 +9,10 @@ const userSchema = new Schema(
       enum: ["admin", "aprenant", "mentor"],
       required: true,
     },
+    isActive:{
+      type: Boolean,
+      default : false
+    },
     nom: {
       type: String,
       required: true,

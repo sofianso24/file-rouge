@@ -8,7 +8,7 @@ import  {createUser,logIn,logOut,
 
 export const userRouter = Express.Router()
 
-userRouter.post("/createUser",adminAuthValidation,createUser)
+userRouter.post("/registration",adminAuthValidation,createUser)
 userRouter.post("/login",logIn )
 userRouter.get("/logout",logOut )
 userRouter.delete("/deleteUser/:id",adminAuthValidation, deleteUser )

@@ -8,6 +8,7 @@ import {aprenantRouter} from "./routers/aprenantRouter.js"
 import {userRouter} from "./routers/userRouter.js"
 import {sessionRouter} from "./routers/sessionRouter.js"
 import {sessionFeedbackRouter} from "./routers/sessionFeedbackRouter.js"
+import { mentorshipRequestRouter} from "./routers/mentorshipRequestRouter.js"
 
 dotenv.config();
 const port = process.env.PORT;
@@ -35,3 +36,4 @@ app.use("/aprenants",aprenantRouter)
 app.use("/users",userRouter)
 app.use("/sessions",sessionRouter)
 app.use("/sessionFeedbacks",sessionFeedbackRouter)
+app.use("/requests",mentorshipRequestRouter)

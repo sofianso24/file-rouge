@@ -12,30 +12,29 @@ export const createToken = (user) => {
 };
 
 export const adminAuthValidation = (req, res, next) => {
-    const authToken = req.cookies["auth-token"].authToken;
-    const userType = req.cookies["userType"].userType;
-  
-    if (userType !== "admin") {
-      return next();
-    }
-  
-    if (!authToken) {
-      return res.json("You are not authorized to access this route.");
-    }
-  
-    const decodedToken = verify(authToken, process.env.SECRET);
-  
-    if (decodedToken.userType !== "admin") {
-      return res.json("You are not authorized to access this route.");
-    }
-  
-    try {
-      return next();
-    } catch (error) {
-      return res.json(error);
-    }
-  };
+  const authToken = req.cookies["auth-token"]?.authToken;
+  const userType = req.cookies["userType"]?.userType;
 
+  if (!userType || userType !== "admin") {
+      return next();
+  }
+
+  if (!authToken) {
+      return res.json("You are not authorized to access this route.");
+  }
+
+  const decodedToken = verify(authToken, process.env.SECRET);
+
+  if (decodedToken.userType !== "admin") {
+      return res.json("You are not authorized to access this route.");
+  }
+
+  try {
+      return next();
+  } catch (error) {
+      return res.json(error);
+  }
+};
 
   export const mentorAuthValidation = (req, res, next) => {
     const authToken = req.cookies["auth-token"].authToken;

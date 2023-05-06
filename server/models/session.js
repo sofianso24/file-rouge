@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import localTime from 'mongoose-localtime';
+// import localTime from 'mongoose-localtime';
 
 const Schema = mongoose.Schema;
 
@@ -14,7 +14,7 @@ const sessionSchema = new Schema(
         ref : 'aprenant'
     },
     date : {
-        type : date,
+        type : Date,
         required : true
     },
     startTime: {
@@ -25,10 +25,14 @@ const sessionSchema = new Schema(
         type: Date,
         required: true,
       },
+      link: {
+        type: String,
+        required: true,
+      },
   },
   { timestamps: true }
 );
 
-sessionSchema.plugin(localTime);
+// sessionSchema.plugin(localTime);
 
 export const Session = mongoose.model("session", sessionSchema);

@@ -33,6 +33,12 @@ const aprenantSchema = new Schema(
         min: 0,
         max: 100,
       },
+      sessions: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "session",
+        },
+      ],
   },
   { timestamps: true }
 );

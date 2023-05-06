@@ -41,6 +41,12 @@ const mentorSchema = new Schema(
         type : [String],
         required : true,
       },
+      sessions: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "session",
+        },
+      ],
   },
   { timestamps: true }
 );
