@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 import { Admin } from "../models/admin.js"
-import async from "hbs/lib/async";
+
 import { Aprenant } from "../models/aprenant.js";
 
 // apprenant crud : 

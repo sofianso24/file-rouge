@@ -30,8 +30,8 @@ const mentorSchema = new Schema(
     },
     rating: {
         type: Number,
-        min: 0,
-        max: 100,
+        min: 1,
+        max: 5,
       },
       companyName: {
         type: String,
@@ -41,10 +41,23 @@ const mentorSchema = new Schema(
         type : [String],
         required : true,
       },
+      isAvailable: {
+        type: Boolean,
+        default: true,
+      },
+      image: {
+        type: Buffer 
+      },
       sessions: [
         {
           type: Schema.Types.ObjectId,
           ref: "session",
+        },
+      ],
+      messages: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "message",
         },
       ],
   },

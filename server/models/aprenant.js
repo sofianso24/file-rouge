@@ -38,6 +38,12 @@ const aprenantSchema = new Schema(
           type: Schema.Types.ObjectId,
           ref: "session",
         },
+      ], 
+      messages: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "message",
+        },
       ],
   },
   { timestamps: true }
