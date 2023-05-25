@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import WebSocket from "ws";
+import cookieParser from "cookie-parser"
 
 import {adminRouter} from "./routers/adminRouter.js"
 import {mentorRouter} from "./routers/mentorRouter.js"
@@ -32,23 +33,24 @@ mongoose
   
   // web socket
 
-const wss = new WebSocket.Server({ port: 8080 }); // create a new WebSocket server on port 8080
+// const wss = new WebSocket.Server({ port: 8080 }); 
 
-wss.on('connection', (ws) => {
-  console.log('WebSocket client connected');
+// wss.on('connection', (ws) => {
+//   console.log('WebSocket client connected');
 
-  ws.on('message', (message) => {
-    console.log(`Received message: ${message}`);
-    // handle the incoming message from the client
-  });
+//   ws.on('message', (message) => {
+//     console.log(`Received message: ${message}`);
+//     // handle the incoming message from the client
+//   });
 
-  ws.on('close', () => {
-    console.log('WebSocket client disconnected');
-  });
-});
+//   ws.on('close', () => {
+//     console.log('WebSocket client disconnected');
+//   });
+// });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser())
 
 app.use("/admins",adminRouter)
 app.use("/mentors",mentorRouter)

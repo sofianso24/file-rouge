@@ -6,17 +6,42 @@ import { MentorshipRequest } from '../models/mentorshipRequest.js';
 // Consulter les demandes de mentorat
 
 export const getMentorshipRequests = async (req, res) => {
-  try {
     
-    // Find all mentorship requests from learners
+       const mentorId = req.params.id
+       try {
+           const requests = await Mentor.findById(mentorId).populate("mentorshipsRequests")
+        
+            if(!requests){
+               return res.json({message : "there are no requests"})
+            }
 
-    const requests = await MentorshipRequest.find({ mentor: req.user._id }).populate('aprenant', 'nom prenom mail');
+            res.send({requests})
+             
+       } catch (error) {
+        console.log(error)
+       }
+}
+
+
+// Consulter les demandes de mentorat (Aprenant)
+
+export const getMentorshipRequestsApreant = async (req, res) => {
     
-    res.status(200).send(requests);
+  const aprenantId = req.params.id
+  try {
+      const requests = await Aprenant.findById(aprenantId).populate("mentorshipsRequests").select("mentorshipsRequests")
+   
+       if(!requests){
+          return res.json({message : "there are no requests"})
+       }
+
+       res.send({requests})
+        
   } catch (error) {
-    res.status(400).send(error);
+   console.log(error)
   }
 }
+
 
 // accept a mentorship request  
 
@@ -46,17 +71,6 @@ export const acceptMentorshipRequest = async (req, res) => {
       return res.status(400).send('Mentorship request has already been accepted');
     }
 
-    // Check if the mentorship request was sent by the authenticated aprenant
-
-    const aprenant = await Aprenant.findOne({ userInherit: req.user._id });
-
-    if (!aprenant) {
-      return res.status(404).send('Aprenant not found');
-    }
-
-    if (!mentorshipRequest.aprenant.equals(aprenant._id)) {
-      return res.status(403).send('You are not authorized to accept this mentorship request');
-    }
 
     // Update the mentorship request status to accepted
 
@@ -73,12 +87,16 @@ export const acceptMentorshipRequest = async (req, res) => {
 // reject a mentorship request 
 
 export const rejectMentorshipRequest = async (req, res) => {
+  const {mentorId, requestId} = req.body
   try {
-    const mentorshipRequest = await MentorshipRequest.findOne({
-      _id: req.params.requestId,
-      mentor: req.user._id, // Only the mentor who received the request can reject it
-      status: "pending", // Make sure the request is still pending
-    });
+  const mentor = await Mentor.findById(mentorId)
+  
+  if (!mentor ){
+    return res.json({message:"mentor not found" })
+  }
+
+    const mentorshipRequest = await MentorshipRequest.findById(requestId)
+  
     if (!mentorshipRequest) {
       return res.status(404).send({ message: "Mentorship request not found" });
     }
@@ -86,7 +104,7 @@ export const rejectMentorshipRequest = async (req, res) => {
     mentorshipRequest.status = "rejected";
     await mentorshipRequest.save();
 
-    res.status(200).send({ message: "Mentorship request rejected" });
+    res.status(200).send({ message: "Mentorship request rejected",mentorshipRequest });
   } catch (error) {
     res.status(500).send({ message: "Internal server error" });
   }

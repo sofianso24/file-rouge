@@ -31,7 +31,7 @@ const aprenantSchema = new Schema(
     progres: {
         type: Number,
         min: 0,
-        max: 100,
+        max: 10,
       },
       sessions: [
         {
@@ -45,6 +45,12 @@ const aprenantSchema = new Schema(
           ref: "message",
         },
       ],
+      mentorshipsRequests : [
+        {
+          type : Schema.Types.ObjectId,
+          ref : "mentorshipRequest"
+        }
+      ]
   },
   { timestamps: true }
 );

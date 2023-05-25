@@ -6,8 +6,10 @@ import {Session } from "../models/session.js";
 // consulter son profil
 
 export const viewAprenantProfile = async (req, res) => {
+
+  const apprenantId = req.params.id;
+  
     try {
-      const apprenantId = req.params.id;
       const aprenant = await Aprenant.findById(apprenantId).populate('userInherit');
       if (!aprenant) {
         return res.status(404).json({ message: 'apprenant not found' });
@@ -24,7 +26,7 @@ export const viewAprenantProfile = async (req, res) => {
   export const updateApprenantProfile = async (req, res) => {
 
     const { domaineInteret, niveauEtude, description, but  } = req.body;
-    const aprenantId = req.aprenant._id;
+    const aprenantId = req.params.id;
     
     try {
       const aprenant = await Aprenant.findById(aprenantId);
@@ -32,7 +34,7 @@ export const viewAprenantProfile = async (req, res) => {
       if (!aprenant) {
         return res.status(404).json({ message: "aprenant not found" });
       }
-  
+   
       aprenant.domaineInteret = domaineInteret;
       aprenant.niveauEtude = niveauEtude;
       aprenant.description = description;
@@ -40,7 +42,7 @@ export const viewAprenantProfile = async (req, res) => {
     
       await aprenant.save();
   
-      return res.status(200).json({ message: "aprenant profile updated successfully" });
+      return res.status(200).json({ aprenant });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Something went wrong. Please try again later" });
@@ -50,23 +52,18 @@ export const viewAprenantProfile = async (req, res) => {
 
   // consultter l'historique des sessions de mentorat
 
-export const aprenantSessionHistory = (req, res) => {
+export const aprenantSessionHistory = async (req, res) => {
 
-    const aprenantId = req.aprenant.id;
+    const aprenantId = req.params.id;
   
-    Aprenant.findById(aprenantId)
-      .populate('sessions')
-      .exec((err, aprenant) => {
-        if (err) {
-          return res.status(500).json({ message: "Error retrieving aprenant session history." });
-        }
-        if (!aprenant) {
-          return res.status(404).json({ message: "aprenant not found." });
-        }
-        
-        const sessions = Aprenant.sessions;
-        res.status(200).json({ sessions });
-      });
+   try {
+      const sessions = await Aprenant.findById(aprenantId).populate("sessions")
+
+      res.send({sessions})
+    
+   } catch (error) {
+    console.log(error)
+   }
   };
 
 // Consulter la liste des mentors disponibles 
@@ -89,7 +86,7 @@ export const getAvailableMentors = async(req, res) => {
 // Effectuer une demande de mentorat
 
 export const requestMentoring = async (req, res) => {
-  const { aprenantId, mentorId } = req.body;
+  const { aprenantId, mentorId,message } = req.body;
 
   try {
     const aprenant = await Aprenant.findById(aprenantId);
@@ -102,10 +99,17 @@ export const requestMentoring = async (req, res) => {
     const request = new MentorshipRequest({
       aprenant: aprenantId,
       mentor: mentorId,
+      message: message,
       status: "pending"
     });
 
     await request.save();
+
+    aprenant.mentorshipsRequests.push(request._id);
+    await aprenant.save()
+
+    mentor.mentorshipsRequests.push(request._id);
+    await mentor.save()
 
     res.status(201).json({ message: "Mentoring request sent successfully.", request });
   } catch (error) {
@@ -116,14 +120,16 @@ export const requestMentoring = async (req, res) => {
 // get a specific mentor
 
 export const getSpecificMentor = async (req, res) => {
+
+  const mentorId = req.params.id
   try {
-    const mentor = await Mentor.findById(req.params.mentorId).populate('sessions');
+    const mentor = await Mentor.findById(mentorId)
 
     if (!mentor) {
       return res.status(404).json({ message: "Mentor not found." });
     }
 
-    res.status(200).json({ mentor });
+    res.status(200).json( {mentor });
   } catch (error) {
     res.status(500).json({ message: `Error retrieving mentor information: ${error.message}` });
   }
@@ -137,7 +143,7 @@ export const searchMentorsByDomain = async(req,res)=>{
   try {
     // Search for mentors with the specified domain
 
-    const mentors = await Mentor.find({ domaine: domain }).populate('sessions');
+    const mentors = await Mentor.find({ domaine: domain })
 
     res.status(200).json({ mentors });
   } catch (error) {
@@ -153,7 +159,7 @@ export const searchMentorsByPrice = async(req,res)=>{
   try {
     // Search for mentors with the specified price
 
-    const mentors = await Mentor.find({ prixHoraire: Prix }).populate('sessions');
+    const mentors = await Mentor.find({ prixHoraire: Prix })
 
     res.status(200).json({ mentors });
   } catch (error) {
@@ -190,11 +196,6 @@ export const rateMentor = async (req, res) => {
       return res.status(404).json({ message: "Session not found." });
     }
 
-    // Check if the current user is the aprenant who had the session with the mentor
-
-    if (session.aprenant._id.toString() !== req.user.id) {
-      return res.status(403).json({ message: "You are not authorized to rate this mentor." });
-    }
 
     // Check if the mentor has already been rated for this session
 

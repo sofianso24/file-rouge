@@ -12,77 +12,59 @@ export const createToken = (user) => {
 };
 
 export const adminAuthValidation = (req, res, next) => {
+
     const authToken = req.cookies["auth-token"].authToken;
-    const userType = req.cookies["userType"].userType;
-  
-    if (userType !== "admin") {
-      return next();
-    }
-  
+   
     if (!authToken) {
       return res.json("You are not authorized to access this route.");
     }
-  
+
     const decodedToken = verify(authToken, process.env.SECRET);
-  
-    if (decodedToken.userType !== "admin") {
-      return res.json("You are not authorized to access this route.");
+
+    if (!decodedToken || decodedToken.userType !== "admin") {
+      return res.status(401).json({ message: "You are not authorized to access this route." });
     }
+
+    res.locals.userId = decodedToken._id;
+    next();
   
-    try {
-      return next();
-    } catch (error) {
-      return res.json(error);
-    }
   };
 
 
   export const mentorAuthValidation = (req, res, next) => {
+
     const authToken = req.cookies["auth-token"].authToken;
-    const userType = req.cookies["userType"].userType;
-    if (userType !== "mentor") {
-      return res.status(401).json({ message: "You are not authorized to access this route." });
-    }
-  
+
     if (!authToken) {
       return res.status(401).json({ message: "You must be authenticated to access this route." });
     }
-  
-    try {
+
       const decodedToken = verify(authToken, process.env.SECRET);
-      if (decodedToken.userType !== "mentor") {
+      if (!decodedToken || decodedToken.userType !== "mentor") {
         return res.status(401).json({ message: "You are not authorized to access this route." });
       }
-      req.mentor = decodedToken;
+      res.locals.userId = decodedToken._id;
       next();
-    } catch (error) {
-      return res.status(401).json({ message: `Authentication error: ${error.message}` });
-    }
+  
   };
 
 
   export const aprenantAuthValidation = (req, res, next) => {
+
     const authToken = req.cookies["auth-token"].authToken;
-    const userType = req.cookies["userType"].userType;
-  
-    if (userType !== "aprenant") {
-      next();
-      return;
-    }
-  
+   
     if (!authToken) {
-      throw new Error("You must be authenticated to access this route.");
+      return res.status(401).json({ message: "You must be authenticated to access this route." });
     }
-  
-    try {
+ 
       const decodedToken = verify(authToken, process.env.SECRET);
-      if (decodedToken.userType !== "aprenant") {
-        throw new Error("You are not authorized to access this route.");
+
+      if (!decodedToken || decodedToken.userType !== "aprenant") {
+        return res.status(401).json({ message: "You are not authorized to access this route." });
       }
-      req.aprenant = decodedToken;
+
+      res.locals.userId = decodedToken._id;
       next();
-    } catch (error) {
-      throw new Error(`Authentication error: ${error.message}`);
-    }
+  
   };
   

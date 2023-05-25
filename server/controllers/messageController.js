@@ -6,7 +6,7 @@ import { Mentor } from "../models/mentor.js";
 
 
 
-// Send a message
+// envoyer un message
 
 export const sendMessage = async (req, res) => {
   const { mentorId, aprenantId, message } = req.body;
@@ -37,7 +37,7 @@ export const sendMessage = async (req, res) => {
 
       const wss = req.app.get('wss');
       const messageData = { _id: newMessage._id, mentor: mentorId, aprenant: aprenantId, message };
-      
+
       wss.clients.forEach(client => {
           if (client.readyState === WebSocket.OPEN) {
               client.send(JSON.stringify({ type: 'new_message', data: messageData }));
@@ -52,7 +52,7 @@ export const sendMessage = async (req, res) => {
   
 
 
-  // Get messages between mentor and apprentice
+  // recuperer les messages entre le mentor et l'aprenant
   
 export const getMessages = async (req, res) => {
     const { mentorId, aprenantId } = req.query;

@@ -7,7 +7,7 @@ import { Session } from "../models/session.js";
 
 
 export const launchMentoringSession = async (req, res) => {
-  const { mentorId, aprenantId, startTime, endTime, link } = req.body;
+  const { mentorId, aprenantId, startTime, endTime, link,date } = req.body;
 
   try {
     const mentor = await Mentor.findById(mentorId);
@@ -25,6 +25,7 @@ export const launchMentoringSession = async (req, res) => {
       startTime,
       endTime,
       link,
+      date
     });
 
     // Save the session and add it to the mentor's and apprentice's sessions arrays

@@ -22,7 +22,7 @@ export const viewMentorProfile = async (req, res) => {
   export const updateMentorProfile = async (req, res) => {
 
     const { companyName, domaine, experience, disponibilites, description, prixHoraire, skills } = req.body;
-    const mentorId = req.mentor._id;
+    const mentorId = req.params.id;
     
     try {
       const mentor = await Mentor.findById(mentorId);
@@ -41,7 +41,7 @@ export const viewMentorProfile = async (req, res) => {
   
       await mentor.save();
   
-      return res.status(200).json({ message: "Mentor profile updated successfully" });
+      return res.status(200).json({ message: "Mentor profile updated successfully",mentor });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Something went wrong. Please try again later" });
@@ -51,21 +51,23 @@ export const viewMentorProfile = async (req, res) => {
 
 // consultter l'historique des sessions de mentorat
 
-export const mentorSessionHistory = (req, res) => {
+export const mentorSessionHistory = async (req, res) => {
 
-  const mentorId = req.mentor.id;
+  const mentorId = req.params.id;
+  
+  try {
+  
+    const mentor = await Mentor.findById(mentorId) 
+  
+    if(!mentor){
+       return res.status(404).json({message : "mentor not found"})
+    }
+  const sessions =  mentor.sessions
 
-  Mentor.findById(mentorId)
-    .populate('sessions')
-    .exec((err, mentor) => {
-      if (err) {
-        return res.status(500).json({ message: "Error retrieving mentor session history." });
-      }
-      if (!mentor) {
-        return res.status(404).json({ message: "Mentor not found." });
-      }
-      
-      const sessions = Mentor.sessions;
-      res.status(200).json({ sessions });
-    });
+  res.status(200).json({sessions})
+    
+  } catch (error) {
+    console.log(error)
+  }
+
 };

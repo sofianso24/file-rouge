@@ -60,6 +60,12 @@ const mentorSchema = new Schema(
           ref: "message",
         },
       ],
+      mentorshipsRequests : [
+        {
+          type : Schema.Types.ObjectId,
+          ref : "mentorshipRequest"
+        }
+      ]
   },
   { timestamps: true }
 );

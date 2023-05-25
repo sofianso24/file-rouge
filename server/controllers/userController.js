@@ -29,6 +29,7 @@ export const createUser = async (req, res) => {
 
     if (user.userType === "admin") {
         try {
+          
           const admin = new Admin({
             userInherit: user._id,
           });
@@ -44,6 +45,7 @@ export const createUser = async (req, res) => {
           const disponibilites = req.body.disponibilites;
           const but = req.body.but;
           const progres = req.body.progres;
+
           const aprenant = new Aprenant({
             userInherit: user._id,
             description,
@@ -54,7 +56,7 @@ export const createUser = async (req, res) => {
           });
           await aprenant.save();
           res.json(aprenant);
-        } catch (error) {
+        } catch (error) { 
           res.json(error);
         }
       }else if (user.userType === "mentor") {
@@ -67,6 +69,7 @@ export const createUser = async (req, res) => {
           const rating = req.body.rating;
           const companyName = req.body.companyName;
           const skills = req.body.skills;
+          
           const mentor = new Mentor({
             userInherit: user._id,
             description,
@@ -124,30 +127,22 @@ export const logIn = async (req, res) => {
     }
   };
 
-  // delete a user :
 
-export const deleteUser = async (req, res) => {
-    try {
-      const id = req.params.id;
-      const user = await User.findByIdAndDelete(id);
-      res.send("profile is deleted");
-    } catch (err) {
-      res.send(err);
-    }
-  };
-  
+
   // update a user :
 
 export const updateUser = async (req, res) => {
     try {
       const id = req.params.id;
-      const user = await User.findById(id);
-      const updateUser = await user.updateOne({
+      // const user = await User.findById(id);
+      const updateUser = await User.findByIdAndUpdate(id,{
         nom: req.body.nom,
         prenom: req.body.prenom,
         mail: req.body.mail,
         password: req.body.password,
-      });
+      },{returnDocument:'after'}
+      );
+
       res.send(updateUser);
     } catch (err) {
       res.send(err);
@@ -165,6 +160,24 @@ export const updateUser = async (req, res) => {
     }
   };
 
+// get an user 
+
+export const getAnUser = async (req,res)=>{
+  const userId = req.params.id
+  try {
+    const user = await User.findById(userId)
+    
+ if (!user){
+  return res.status(404).json({message: "user not found"})
+ }
+
+    res.status(200).json(user)
+
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 // delete all users 
 
   export const deleteAllUsers = async (req, res) => {
@@ -176,3 +189,20 @@ export const updateUser = async (req, res) => {
     }
   };
   
+// delete a user 
+
+export const deleteAnUser = async (req,res)=>{
+  const userId = req.params.id
+  try {
+    const user = await User.findByIdAndDelete(userId)
+
+    if (!user){
+      return res.status(404).json({message : "user not found"})
+    }
+
+    res.status(200).json({message : "user has been deleted"})
+    
+  } catch (error) {
+    console.log(error)
+  }
+}
