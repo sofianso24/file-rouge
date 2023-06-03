@@ -44,7 +44,7 @@ export const createUser = async (req, res) => {
           const niveauEtude = req.body.niveauEtude;
           const disponibilites = req.body.disponibilites;
           const but = req.body.but;
-          const progres = req.body.progres;
+          
 
           const aprenant = new Aprenant({
             userInherit: user._id,
@@ -52,7 +52,7 @@ export const createUser = async (req, res) => {
             niveauEtude,
             disponibilites,
             but,
-            progres
+           
           });
           await aprenant.save();
           res.json(aprenant);
@@ -66,7 +66,6 @@ export const createUser = async (req, res) => {
           const disponibilites = req.body.disponibilites;
           const experience = req.body.experience;
           const prixHoraire = req.body.prixHoraire;
-          const rating = req.body.rating;
           const companyName = req.body.companyName;
           const skills = req.body.skills;
           
@@ -77,7 +76,6 @@ export const createUser = async (req, res) => {
             disponibilites,
             experience,
             prixHoraire,
-            rating,
             companyName,
             skills
           });

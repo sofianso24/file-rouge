@@ -196,6 +196,12 @@ export const rateMentor = async (req, res) => {
       return res.status(404).json({ message: "Session not found." });
     }
 
+    // check if l'aprenant had a session with the mentor so he can rate him
+    
+    if (res.locals.userId !== session.aprenant._id){
+      return res.send({message : "you cant rate this mentor"})
+    }
+
 
     // Check if the mentor has already been rated for this session
 
@@ -212,7 +218,7 @@ export const rateMentor = async (req, res) => {
 
     const mentorSessions = await Session.find({ mentor: session.mentor._id, rating: { $exists: true } });
     const mentorRatings = mentorSessions.map(s => s.rating);
-    const mentorOverallRating = mentorRatings.length > 0 ? mentorRatings.reduce((a, b) => a + b) / mentorRatings.length : 0;
+    const mentorOverallRating = mentorRatings.length > 0 ? mentorRatings.reduce((total, rating) => total + rating) / mentorRatings.length : 0;
 
     // Update the mentor's overall rating
     

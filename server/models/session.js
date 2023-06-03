@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-// import localTime from 'mongoose-localtime';
+
 
 const Schema = mongoose.Schema;
 
@@ -31,8 +31,14 @@ const sessionSchema = new Schema(
       },
       rating:{
         type:Number,
-        min : 1,
+        default : 0 ,
+        min : 0,
         max: 5
+      },
+      note :{
+         type : Number,
+         min :0,
+         max:10
       },
       hasRated:{
         type: Boolean,
@@ -42,6 +48,6 @@ const sessionSchema = new Schema(
   { timestamps: true }
 );
 
-// sessionSchema.plugin(localTime);
+
 
 export const Session = mongoose.model("session", sessionSchema);

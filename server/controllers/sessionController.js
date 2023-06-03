@@ -17,6 +17,12 @@ export const launchMentoringSession = async (req, res) => {
       return res.status(404).json({ message: "Mentor or aprenant not found." });
     }
 
+// check if the mentor has accepted the mentorship request from the aprentice
+
+    if(aprenant.mentorshipsRequests.status !== "accepted" ){
+          res.send({message : "l'aprenant n'est pas autorisè a faire le session de mentorat"})   
+    }
+
     // Create the new session
     
     const session = new Session({

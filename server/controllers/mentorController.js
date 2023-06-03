@@ -1,4 +1,5 @@
 
+import { Aprenant } from "../models/aprenant.js";
 import { Mentor } from "../models/mentor.js"
 import { Session } from "../models/session.js";
 
@@ -71,3 +72,36 @@ export const mentorSessionHistory = async (req, res) => {
   }
 
 };
+
+// suivre le progrès d'un aprenant
+
+export const aprenantProgress = async (req,res)=>{
+    
+  const {sessionId, note} = req.body
+
+try {
+   const session = await Session.findById(sessionId).populate("mentor aprenant")
+   if (!session){
+    return res.send({message : "session not found"})
+   }
+
+  
+  // Calculate the overall progress for the aprenant
+
+  const aprenantSessions = await Session.find({ aprenant: session.aprenant._id });
+  const aprenantProgress = aprenantSessions.map(s => s.note);
+  const aprenantOverallProgress = aprenantProgress.length > 0 ? aprenantProgress.reduce((total, note) => total + note) / aprenantProgress.length : 0;
+
+  // Update the mentor's overall rating
+  
+  const aprenant = await Aprenant.findById(session.aprenant._id);
+  aprenant.progres = aprenantOverallProgress ;
+  await aprenant.save();
+
+  res.status(200).json({ message: "aprenant noted successfully." });
+
+
+} catch (error) {
+  res.send(error)
+}
+} 

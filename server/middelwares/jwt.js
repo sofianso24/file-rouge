@@ -40,6 +40,7 @@ export const adminAuthValidation = (req, res, next) => {
     }
 
       const decodedToken = verify(authToken, process.env.SECRET);
+     
       if (!decodedToken || decodedToken.userType !== "mentor") {
         return res.status(401).json({ message: "You are not authorized to access this route." });
       }
@@ -58,7 +59,7 @@ export const adminAuthValidation = (req, res, next) => {
     }
  
       const decodedToken = verify(authToken, process.env.SECRET);
-
+     
       if (!decodedToken || decodedToken.userType !== "aprenant") {
         return res.status(401).json({ message: "You are not authorized to access this route." });
       }
