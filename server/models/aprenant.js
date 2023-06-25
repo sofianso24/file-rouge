@@ -22,16 +22,17 @@ const aprenantSchema = new Schema(
     },
     description : {
         type : String,
-        required : true,
     },
     but : {
-        type : String,
-        required : true
+        type : String, 
     },
     progres: {
         type: Number,
         min: 0,
-        max: 10,
+        max: 100,
+      },
+      image: {
+        type: Buffer 
       },
       sessions: [
         {

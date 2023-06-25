@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import WebSocket from "ws";
 import cookieParser from "cookie-parser"
+import cors from "cors"
 
 import {adminRouter} from "./routers/adminRouter.js"
 import {mentorRouter} from "./routers/mentorRouter.js"
@@ -51,6 +52,7 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
+app.use(cors())
 
 app.use("/admins",adminRouter)
 app.use("/mentors",mentorRouter)

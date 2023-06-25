@@ -14,7 +14,7 @@ const messageSchema = new Schema (
         enum: ['mentor', 'apprenant'],
         required: true
     },
-    content:{
+    message:{
         type: String,
         required : true
     }, 

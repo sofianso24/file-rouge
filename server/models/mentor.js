@@ -22,7 +22,7 @@ const mentorSchema = new Schema(
     },
     description : {
         type : String,
-        required : true,
+       
     },
     prixHoraire : {
         type : String,
@@ -35,7 +35,7 @@ const mentorSchema = new Schema(
       },
       companyName: {
         type: String,
-        required: true,
+      
       },
       skills : {
         type : [String],

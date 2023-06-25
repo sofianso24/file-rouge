@@ -9,7 +9,7 @@ import { createToken } from "../middelwares/jwt.js";
 //register :
 
 export const createUser = async (req, res) => {
-    const userType = req.body.userType;
+    const userRole = req.body.userRole;
     const nom = req.body.nom;
     const prenom = req.body.prenom;
     const mail = req.body.mail;
@@ -18,7 +18,7 @@ export const createUser = async (req, res) => {
   
     const hashedPassword = await bcrypt.hash(password, salt);
     const user = new User({
-      userType,
+      userRole,
       nom,
       prenom,
       mail,
@@ -27,7 +27,7 @@ export const createUser = async (req, res) => {
   
     await user.save();
 
-    if (user.userType === "admin") {
+    if (user.userRole === "admin") {
         try {
           
           const admin = new Admin({
@@ -38,7 +38,7 @@ export const createUser = async (req, res) => {
         } catch (error) {
           res.json(error);
         }
-      }else if (user.userType === "aprenant") {
+      }else if (user.userRole === "aprenant") {
         try {
           const description = req.body.description;
           const niveauEtude = req.body.niveauEtude;
@@ -59,7 +59,7 @@ export const createUser = async (req, res) => {
         } catch (error) { 
           res.json(error);
         }
-      }else if (user.userType === "mentor") {
+      }else if (user.userRole === "mentor") {
         try {
           const description = req.body.description;
           const domaine = req.body.domaine;
@@ -105,11 +105,14 @@ export const logIn = async (req, res) => {
   
     const authToken = createToken(user);
     const userId = user._id.toString();
-    const userType = user.userType;
+    const userRole = user.userRole;
   
-    res.cookie("auth-token", { authToken }, { maxAge: 60 * 60 * 24 * 1000 }); // maxAge: 30 days
+    res.cookie("auth-token", { authToken }, { maxAge: 60 * 60 * 24 * 1000,
+                                              httpOnly : true,
+                                             sameSite : "None",
+                                            secure: true }); 
     res.cookie("userId", { userId });
-    res.cookie("userType", { userType });
+    res.cookie("userRole", { userRole });
     res.json("user loged in succesfully");
   };
   
@@ -119,6 +122,8 @@ export const logIn = async (req, res) => {
     try {
       res.clearCookie("auth-token");
       res.clearCookie("userId");
+      res.clearCookie("userRole");
+      
       res.json("user loged out");
     } catch (error) {
       res.json(error);

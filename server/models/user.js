@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    userType: {
+    userRole: {
       type: String,
       enum: ["admin", "aprenant", "mentor"],
       required: true,
