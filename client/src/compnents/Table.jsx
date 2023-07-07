@@ -1,0 +1,45 @@
+const Table= ()=> {
+
+    const tableItems = [
+        {
+            Price: "Liam James",
+            Description: "liamjames@example.com",
+            Calls: "Software engineer",
+             Chat: "$100K"
+        },
+       
+    ]
+
+    return (
+        <div className="max-w-screen-xl  px-4 md:px-8">
+                
+            <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
+                <table className="w-full table-auto text-sm text-left">
+                    <thead className="bg-[#aad4c1] opacity-80 text-white font-medium border-b">
+                        <tr>
+                            <th className="py-3 px-6">Price</th>
+                            <th className="py-3 px-6">Description</th>
+                            <th className="py-3 px-6">Calls</th>
+                            <th className="py-3 px-6">Chat</th>
+                        </tr>
+                    </thead>
+                    <tbody className="text-gray-600 divide-y">
+                        {
+                            tableItems.map((item, idx) => (
+                                <tr key={idx}>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.Price}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.Description}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.Calls}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.Chat}</td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    )
+}
+
+
+export default Table

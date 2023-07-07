@@ -1,0 +1,90 @@
+import ServiceItem from "./serviceItem"
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+
+const ServiceContainer = (props) => {
+
+  return (
+    
+    <div className="container-xxl py-5  bg-[url('src/assets/blurServices.png')] bg-cover bg-center rounded-full relative -top-70 text-center  ">
+    <div className="container bg-transparent items-center ">
+      <Carousel
+        showArrows={true}
+        showThumbs={false}
+        emulateTouch={true}
+        infiniteLoop={true}
+        autoPlay={true}
+        interval={2000}
+        transitionTime={500}
+        swipeable={true}
+        showStatus={false}
+        dynamicHeight={false}
+        renderArrowPrev={(onClickHandler, hasPrev, label) =>
+          hasPrev && (
+            <button
+              type="button"
+              onClick={onClickHandler}
+              title={label}
+              className="carousel-button-prev"
+            >
+               {/* <FaArrowLeft /> */}
+            </button>
+          )
+        }
+        renderArrowNext={(onClickHandler, hasNext, label) =>
+          hasNext && (
+            <button
+              type="button"
+              onClick={onClickHandler}
+              title={label}
+              className="carousel-button-next"
+            >
+                {/* <FaArrowRight /> */}
+            </button>
+          )
+        }
+        responsive={{
+          // Configure breakpoints for different screen sizes
+          640: {
+            // Two slides per view on screens >= 640px wide
+            slidesToShow: 2,
+          },
+          768: {
+            // Two slides per view on screens >= 768px wide
+            slidesToShow: 2,
+          },
+          1024: {
+            // Three slides per view on screens >= 1024px wide
+            slidesToShow: 3,
+          },
+        }}
+      >
+        <div className="carousel-slide text-white">
+          <ServiceItem
+            service="Find your mentor"
+            text="Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam"
+            icon="fa-graduation-cap"
+          />
+        </div>
+        <div className="carousel-slide text-white">
+          <ServiceItem
+            service="Apply for mentorship"
+            text="Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam"
+            icon="fa-globe"
+          />
+        </div>
+        <div className="carousel-slide text-white">
+          <ServiceItem
+            service="Level up your skills"
+            text="Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam"
+            icon="fa-home"
+          />
+        </div>
+      </Carousel>
+    </div>
+  </div>
+  );
+};
+
+export default ServiceContainer;

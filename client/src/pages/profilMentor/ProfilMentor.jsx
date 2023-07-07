@@ -1,64 +1,226 @@
+import Table from "../../compnents/Table"
 import React from 'react'
+import { MdEdit } from 'react-icons/md';
+import Form  from "../../compnents/Form";
 
 const ProfilMentor = () => {
+
   return (
-    <div className="max-w-screen-xl mx-auto">
-      <nav className="flex pl-4 sm:pl-8 py-8" aria-label="Breadcrumb">
-        <div className="flex items-center space-x-4">
-          <div>
-            <div>
-              <a href="/" className="text-white hover:text-gray-100">
+    <>
+      <div>
+        <div className="relative bg-[#AAD4C1]">
+          <div className="max-w-screen-xl mx-auto">
+            <nav className="flex pl-4 sm:pl-8 py-8" aria-label="Breadcrumb">
+              <div className="flex items-center space-x-4">
+                <div>
+                  <div>
+                    <a href="/" className="text-white hover:text-gray-100">
 
-                <svg className="flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
-                </svg>
-                <span className="sr-only">Home</span>
-              </a>
-            </div>
-          </div>
-          <div>
-            <div className="flex items-center">
+                      <svg className="flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                      </svg>
+                      <span className="sr-only">Home</span>
+                    </a>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center">
 
-              <svg className="flex-shrink-0 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fileRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-              </svg>
-              <a href="/mentor/browse/" className="ml-4 text-sm font-medium text-white hover:text-gray-100">Find a Mentor</a>
-            </div>
-          </div>
-          <div>
-            <div className="flex items-center">
+                    <svg className="flex-shrink-0 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd"></path>
+                    </svg>
+                    <a href="/mentor/browse/" className="ml-4 text-sm font-medium text-white hover:text-gray-100">Find a Mentor</a>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center">
 
-              <svg className="flex-shrink-0 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-              </svg>
-              <a href="/mentor/urosdurdevic/" className="ml-4 text-sm font-medium text-white" aria-current="page">Uros Durdevic</a>
+                    <svg className="flex-shrink-0 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd"></path>
+                    </svg>
+                    <a href="/mentor/sabamokhlesi/" className="ml-4 text-sm font-medium text-white" aria-current="page"></a>
+                  </div>
+                </div>
+              </div>
+            </nav>
+            <div className="-mt-12 w-full lg:w-1/2 xl:w-2/3 px-4 pb-8 align-bottom flex items-end">
+              <div className="inline-block w-48 h-48 relative top-20 rounded-full overflow-hidden bg-white p-1 flex-none">
+                <img className="w-full h-full rounded-full" src="https://cdn.mentorcruise.com/cache/ea4815d1775e691a499aeb79e60e7cfb/eb2b41bd16efdcb5/98b6275fe613a52f34b0d17818011dc2.jpg" alt="Saba Mokhlesi" />
+              </div>
+              <div className="hidden sm:inline-block ml-6 grow">
+                <div className="flex items-end gap-x-4">
+                  <div>
+                    <div className="whitespace-nowrap text-sm text-slate-800 font-medium bg-teal-50 hover:bg-teal-100 duration-150 transition-all rounded-full px-4 py-2 cursor-default">
+                      <svg className="w-5 h-5 text-teal-700 align-middle mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd"></path></svg>
+                      Quick Responder
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="inline-block flex-none items-end gap-x-6 pl-6 sm:pl-0">
+                   <MdEdit className="h-6 w-6 text-white align-bottom" />
+               </div>
             </div>
           </div>
         </div>
-      </nav>
-      <div className="-mt-12 w-full lg:w-1/2 xl:w-2/3 px-4 pb-8 align-bottom flex items-end">
-        <div className="inline-block w-48 h-48 relative top-20 rounded-full overflow-hidden bg-white p-1 flex-none">
-          <img className="w-full h-full rounded-full" src="https://cdn.mentorcruise.com/cache/e809d03b23f1af24a483a8008e3e2670/cadfe3bad25aab6f/9e5be5af58f5309e011d088f2ceec9fd.jpg" alt="Uros Durdevic"/>
-        </div>
-        <div className="hidden sm:inline-block ml-6 grow">
-          <div className="flex items-end gap-x-4">
+        <div className="max-w-screen-xl mx-auto">
+          <div className="w-full   relative pt-20">
+            <div className="sm:grid sm:grid-cols-2 gap-x-8 px-4 sm:px-8">
+              <div>
+                <div className="inline-block sm:hidden mb-6">
+                  <div className="flex items-end gap-x-4">
+                    <div>
+                      <div className="whitespace-nowrap text-sm text-slate-800 font-medium bg-teal-50 hover:bg-teal-100 duration-150 transition-all rounded-full px-4 py-2 cursor-default">
+                        <svg className="w-5 h-5 text-teal-700 align-middle mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd"></path></svg>
+                        Quick Responder
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h1 className="text-slate-900 font-bold text-2xl mb-1">
+                  Saba Mokhlesi
+                </h1>
+                <span className="inline-block font-medium text-slate-900 text-md leading-normal">
+                  <a className="text-slate-900" href="/career/software-engineer/">
+                    Software Engineer
+                  </a>
+                  <span>@</span>
+                  <a className="text-slate-900" href="/company/microsoft/">Microsoft</a>
+                </span><br />
+                <span className="inline-block font-medium text-teal-700 text-md leading-normal mt-[2px]">
+                  Self-taught software engineer at Microsoft
+                </span>
+                <div className="mt-5 font-normal text-slate-600">
+                  <span className="block mb-2">
+                    <a href="/country/ca/" className=" text-slate-600">
+                      <svg className="w-5 h-5 text-teal-600 align-sub mr-1 inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"></path></svg>
+                      <span>Canada</span></a>
+                  </span>
+                  <span className="block mb-2">
+                    <svg className="w-5 h-5 text-teal-600 align-sub mr-1 inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"></path></svg>
+                    <span>Active this week</span>
+                  </span>
+                  <span className="block mb-2">
+                    <svg className="w-5 h-5 text-teal-600 align-sub mr-1 inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                      <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
+                    </svg>
+                    Usually responds
+                    <span className="underline tooltip is-tooltip-top is-tooltip-multiline" data-tooltip="This is how quickly Saba usually responds to applications.">
+                      in half a day
+                    </span>
+                  </span>
+                </div>
+                <div className="mt-5 flex gap-x-4">
+                  <div onClick="if (!window.__cfRLUnblockHandlers) return false; $('#notifyme').addclassName('is-active');" className="white-btn border small px-[15px] py-[7px] text-sm">
+                    <svg className="w-5 h-5 text-slate-400 align-top mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"></path>
+                    </svg>
+                    Save
+                  </div>
+                </div>
+              </div>
+              <div className="hidden sm:block">
+                <div className="mb-5">
+                  <h3 className="text-slate-900 font-semibold mb-2">
+                    rating
+                  </h3> 
+                  
+                    <div class="flex items-center space-x-1">
+                        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                        </svg>
+                        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                        </svg>
+                        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                        </svg>
+                        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                        </svg>
+                        <svg class="w-4 h-4 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                        </svg>
+                    </div>
+
+
+                </div>
+                
+              </div>
+            </div>
           </div>
         </div>
-        <div className="inline-block flex-none flex items-end gap-x-6 pl-6 sm:pl-0">
-          <a href="https://twitter.com/@luckyursus" target="_blank">
-            <svg className="h-6 w-6 text-white align-bottom" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M7.54752 21.7508C16.6042 21.7508 21.5578 14.2474 21.5578 7.74052C21.5578 7.5274 21.5578 7.31524 21.5434 7.10404C22.507 6.40699 23.3389 5.54392 24 4.55524C23.1014 4.95364 22.148 5.21479 21.1718 5.32996C22.1998 4.71465 22.9692 3.74674 23.3366 2.60644C22.3701 3.18005 21.3126 3.58427 20.2099 3.80164C19.4675 3.01222 18.4856 2.48948 17.4162 2.31432C16.3468 2.13917 15.2494 2.32135 14.294 2.83269C13.3385 3.34403 12.5782 4.15601 12.1307 5.14299C11.6833 6.12996 11.5735 7.2369 11.8186 8.29252C9.8609 8.19432 7.94576 7.68555 6.19745 6.79924C4.44915 5.91294 2.90676 4.6689 1.6704 3.14788C1.04073 4.23188 0.847872 5.51511 1.1311 6.7363C1.41433 7.9575 2.15234 9.02483 3.19488 9.721C2.41123 9.69804 1.64465 9.48663 0.96 9.10468V9.16708C0.960311 10.3039 1.35385 11.4057 2.07387 12.2854C2.79389 13.1652 3.79606 13.7688 4.9104 13.994C4.18548 14.1917 3.42487 14.2206 2.68704 14.0784C3.00181 15.0568 3.61443 15.9123 4.43924 16.5254C5.26405 17.1385 6.25983 17.4785 7.28736 17.498C6.26644 18.3004 5.09731 18.8937 3.84687 19.244C2.59643 19.5942 1.28921 19.6944 0 19.5389C2.25183 20.9839 4.87192 21.7504 7.54752 21.7469" fill="white"></path>
-            </svg>
+        <hr className="my-12" />
+      </div>
+
+      <div className='ml-20'>
+        <h2 className="text-slate-900 font-bold text-2xl mb-1" >
+          About
+        </h2>
+        <div >
+          <div className="inline-block">
+            <div className="text-black overflow-hidden leading-normal w-2/3" >
+              <p>Hello aspiring software engineers! I'm Saba, a self-taught software engineer at Microsoft with over 5 years of industry experience.</p>
+              <p>Having successfully transitioned into the software engineering field, I am passionate about helping others embark on a similar journey. As your mentor, I offer a structured approach to learning, providing practical resources, code reviews, mock interviews, and insights into the industry. I believe in fostering an open and collaborative learning environment where you can ask questions, explore new concepts, and gain confidence in your abilities.</p>
+              <p>I'm excited to be a part of your software engineering journey and help you navigate the path to success. Let's work together to unlock your full potential and achieve your career aspirations!</p><p></p>
+            </div>
+          </div>
+        </div>
+       
+      </div>
+      
+      
+      <hr className="my-12" />
+      <div className='ml-20'>
+        <h2 className="text-slate-900 font-bold text-2xl mb-1" >
+          Services
+        </h2>
+        <Table/>
+        <Form/>
+
+
+       
+      </div>
+       
+
+      <hr className="my-12" />
+      <div className='ml-20 w-1/2 '>
+        <h2 className="text-slate-900 font-bold text-2xl mb-1" id="tags">
+          Skills
+        </h2>
+        <div className="mt-6">
+          <a href="/filter/typescript/" className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">
+            Typescript
           </a>
-          <a target="_blank" href="https://www.linkedin.com/in/durdevicu/">
-            <svg className="h-6 w-6 text-white align-bottom" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M22.2283 0H1.77167C1.30179 0 0.851162 0.186658 0.51891 0.51891C0.186658 0.851162 0 1.30179 0 1.77167V22.2283C0 22.6982 0.186658 23.1488 0.51891 23.4811C0.851162 23.8133 1.30179 24 1.77167 24H22.2283C22.6982 24 23.1488 23.8133 23.4811 23.4811C23.8133 23.1488 24 22.6982 24 22.2283V1.77167C24 1.30179 23.8133 0.851162 23.4811 0.51891C23.1488 0.186658 22.6982 0 22.2283 0ZM7.15333 20.445H3.545V8.98333H7.15333V20.445ZM5.34667 7.395C4.93736 7.3927 4.53792 7.2692 4.19873 7.04009C3.85955 6.81098 3.59584 6.48653 3.44088 6.10769C3.28592 5.72885 3.24665 5.31259 3.32803 4.91146C3.40942 4.51032 3.6078 4.14228 3.89816 3.85378C4.18851 3.56529 4.55782 3.36927 4.95947 3.29046C5.36112 3.21165 5.77711 3.25359 6.15495 3.41099C6.53279 3.56838 6.85554 3.83417 7.08247 4.17481C7.30939 4.51546 7.43032 4.91569 7.43 5.325C7.43386 5.59903 7.38251 5.87104 7.27901 6.12481C7.17551 6.37857 7.02198 6.6089 6.82757 6.80207C6.63316 6.99523 6.40185 7.14728 6.14743 7.24915C5.893 7.35102 5.62067 7.40062 5.34667 7.395ZM20.4533 20.455H16.8467V14.1933C16.8467 12.3467 16.0617 11.7767 15.0483 11.7767C13.9783 11.7767 12.9283 12.5833 12.9283 14.24V20.455H9.32V8.99167H12.79V10.58H12.8367C13.185 9.875 14.405 8.67 16.2667 8.67C18.28 8.67 20.455 9.865 20.455 13.365L20.4533 20.455Z" fill="white"></path>
-            </svg>
+          <a href="/filter/javascript/" className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">
+            JavaScript
+          </a>
+          <a href="/filter/frontend/" className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">
+            Frontend
+          </a>
+          <a href="/filter/system-design/" className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">
+            System Design
+          </a>
+          <a href="/filter/software-engineering/" className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">
+            Software Engineering
+          </a>
+          <a href="/filter/html/" className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">
+            HTML
+          </a>
+          <a href="/filter/css/" className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">
+            CSS
+          </a>
+          <a href="/filter/react/" className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">
+            React
           </a>
         </div>
       </div>
-    </div>
-  
+
+
+
+    </>
+
   )
 }
 

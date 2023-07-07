@@ -24,10 +24,12 @@ const mentorSchema = new Schema(
         type : String,
        
     },
-    prixHoraire : {
+    services: [
+      {
         type : String,
-        required : true
-    },
+      }
+    ],
+   
     rating: {
         type: Number,
         min: 0,
@@ -45,9 +47,13 @@ const mentorSchema = new Schema(
         type: Boolean,
         default: true,
       },
-      image: {
-        type: Buffer 
+      localisation: {
+        type: String,
+        
       },
+      // image: {
+      //   type: Buffer 
+      // },
       sessions: [
         {
           type: Schema.Types.ObjectId,

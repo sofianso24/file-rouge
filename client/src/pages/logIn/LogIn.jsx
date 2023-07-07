@@ -14,14 +14,14 @@ const navigate = useNavigate()
   
     const handleLogin = (e) => {
         e.preventDefault()
-        axios.post("http://localhost:8082/users/login", {mail:email, password})
+        axios.post("http://localhost:8082/users/login", {mail:email, password}, {withCredentials:true})
             .then(res => {
-                alert(res.data);
                 setLoginUser(true)
                 navigate("/")
-            })
+            })  
             .catch(error => {
                 console.log(error); 
+                alert(error)
             });
     };
     return (

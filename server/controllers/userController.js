@@ -91,16 +91,18 @@ export const createUser = async (req, res) => {
 
 export const logIn = async (req, res) => {
     const { mail, password } = req.body;
+    try {
     const user = await User.findOne({ mail });
-  
     if (!user) {
-      res.json("user not found");
+      res.status(403).json("user not found");
+      return
     }
   
     const passwordCompare = await bcrypt.compare(password, user.password);
   
     if (!passwordCompare) {
-      res.json("password is incorrect");
+      res.status(403).json("password is incorrect");
+      return
     }
   
     const authToken = createToken(user);
@@ -111,9 +113,13 @@ export const logIn = async (req, res) => {
                                               httpOnly : true,
                                              sameSite : "None",
                                             secure: true }); 
-    res.cookie("userId", { userId });
-    res.cookie("userRole", { userRole });
-    res.json("user loged in succesfully");
+
+      res.cookie("userId", { userId });
+      res.cookie("userRole", { userRole });
+    res.status(200).json("user loged in succesfully");
+  } catch (error) {
+    console.log(error);
+  }
   };
   
   // log out : 
@@ -123,7 +129,6 @@ export const logIn = async (req, res) => {
       res.clearCookie("auth-token");
       res.clearCookie("userId");
       res.clearCookie("userRole");
-      
       res.json("user loged out");
     } catch (error) {
       res.json(error);

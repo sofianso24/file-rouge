@@ -1,35 +1,23 @@
 import React from 'react'
 import "./testimonialCard.css"
 
-const TestimonialCard = () => {
+const TestimonialCard = (props) => {
 
   return (
-    <div className='container'>
-      
-    <div className='card'>
-      <div className='contentbef'>
-      </div>
-      <div className='content'>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-        <a href='/'>Read More</a>
-      </div>
+    <div className='container-profil'>
+      <figure className="snip1390">
+        <img src={props.image} alt="profile-sample3" className="profile" />
+        <figcaption>
+          <h2>{props.name}</h2>
+          <h4>{props.field}</h4>
+          <blockquote>{props.quote}</blockquote>
+        </figcaption>
+      </figure>
     </div>
-    <div className='card'>
-      <div className='content'>
-        
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-        <a href='/'>Read More</a>
-      </div>
-    </div>
-    <div className='card'>
-      <div className='content'>
-        
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-        <a href='/'>Read More</a>
-      </div>
-    
-    </div>
-  </div>
+
+
+
+
   )
 }
 

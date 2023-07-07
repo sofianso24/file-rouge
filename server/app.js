@@ -19,6 +19,7 @@ const port = process.env.PORT;
 const dbURI = process.env.DBURI;
 
 const app = express();
+
 mongoose.set("strictQuery", true);
 mongoose
   .connect(dbURI)
@@ -52,7 +53,11 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
-app.use(cors())
+app.use(cors({
+  origin: "http://localhost:5173",
+  optionsSuccessStatus: 204,
+  credentials: true
+}))
 
 app.use("/admins",adminRouter)
 app.use("/mentors",mentorRouter)
