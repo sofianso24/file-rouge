@@ -12,8 +12,9 @@ export const viewMentorProfile = async (req, res) => {
       if (!mentor) {
         return res.status(404).json({ message: 'Mentor not found' });
       }
-      return res.status(200).json({ mentor });
+      return res.status(200).json(mentor );
     } catch (error) {
+      console.log(error)
       return res.status(500).json({ message: `Server error: ${error.message}` });
     }
   };
@@ -22,7 +23,7 @@ export const viewMentorProfile = async (req, res) => {
 
   export const updateMentorProfile = async (req, res) => {
 
-    const { companyName, domaine, experience, disponibilites, description, prixHoraire, skills } = req.body;
+    const { lastName,firstName,company, domain, experience, disponibility, about, skills,localisation,responseTime,price,image } = req.body;
     const mentorId = req.params.id;
     
     try {
@@ -31,14 +32,18 @@ export const viewMentorProfile = async (req, res) => {
       if (!mentor) {
         return res.status(404).json({ message: "Mentor not found" });
       }
-  
-      mentor.companyName = companyName;
-      mentor.domaine = domaine;
+      mentor.firstName = firstName;
+      mentor.lastName = lastName;
+      mentor.localisation = localisation;
+      mentor.disponibility = disponibility;
+      mentor.responseTime = responseTime; 
+      mentor.company = company;
+      mentor.domain = domain;
       mentor.experience = experience;
-      mentor.disponibilites = disponibilites;
-      mentor.description = description;
-      mentor.prixHoraire = prixHoraire;
+      mentor.about = about;
+      mentor.price = price;
       mentor.skills = skills;
+      mentor.image = image;
   
       await mentor.save();
   

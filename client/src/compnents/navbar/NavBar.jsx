@@ -11,8 +11,8 @@ import logo from "../../assets/logo.png"
 
 
 const navigation = [
-  { name: 'HOME', href: 'http://localhost:5173/', current: true },
-  { name: 'FIND A MENTOR', href: 'http://localhost:5173/mentors', current: false },
+  { name: 'HOME', href: 'http://localhost:5173/' },
+  { name: 'FIND A MENTOR', href: 'http://localhost:5173/mentors',  },
 ]
 
 function classNames(...classes) {
@@ -81,7 +81,7 @@ const NavBar = () => {
                       key={item.name}
                       href={item.href}
                       className={classNames(
-                        item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-[#007749] hover:text-white',
                         'rounded-md px-3 py-2 text-sm font-medium'
                       )}
                       aria-current={item.current ? 'page' : undefined}
@@ -177,7 +177,7 @@ const NavBar = () => {
               as="a"
               href={item.href}
               className={classNames(
-                item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-[#007749] hover:text-white',
                 'block rounded-md px-3 py-2 text-base font-medium'
               )}
               aria-current={item.current ? 'page' : undefined}

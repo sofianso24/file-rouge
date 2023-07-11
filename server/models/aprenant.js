@@ -1,24 +1,25 @@
 import mongoose from "mongoose";
+import { User } from "./user.js";
 
 const Schema = mongoose.Schema;
 
 const aprenantSchema = new Schema(
   {
-    userInherit: {
-      type: Schema.Types.ObjectId,
-      ref: "user",
-    },
+    // userInherit: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "user",
+    // },
     domaineInteret: {
         type: [String],
-        required: true,
+        // required: true,
     },
     niveauEtude :{
         type: String,
-        required : true,
+        // required : true,
     },
     disponibilites : {
         type : String,
-        required : true,
+        // required : true,
     },
     description : {
         type : String,
@@ -56,4 +57,4 @@ const aprenantSchema = new Schema(
   { timestamps: true }
 );
 
-export const Aprenant = mongoose.model("aprenant", aprenantSchema);
+export const Aprenant = User.discriminator("aprenant", aprenantSchema);

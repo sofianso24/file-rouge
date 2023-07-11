@@ -1,5 +1,6 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
+import axios from "axios"
 import Pagination from '../../compnents/Pagination'
 import NavBar from '../../compnents/navbar/NavBar'
 import Search from '../../compnents/search/Search'
@@ -8,6 +9,28 @@ import MentorCard from '../../compnents/mentorCard/MentorCard'
 import Footer from '../../compnents/footer/Footer'
 
 const Mentors = () => {
+
+  const [data, setData] = useState(null)
+  useEffect(() => {
+
+    const fetchdata = async () => {
+      await axios.get("http://localhost:8082/aprenants/getAvailableMentors", {
+        withCredentials: true
+      })
+
+        .then(response => {
+          setData(response.data)
+
+          console.log(response.data);
+
+        })
+        .catch(error => {
+          console.error('An error occurred while updating the profile:', error);
+        });
+    }
+    fetchdata()
+  }, []);
+
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (page) => {
@@ -46,8 +69,8 @@ const Mentors = () => {
       <Search />
       <SelectButton />
 
-      {displayedMentors.map((mentor) => (
-        <MentorCard key={mentor.id} mentor={mentor} />
+      {data?.map((mentor) => (
+        <MentorCard key={mentor._id} mentor={mentor}  />
       ))}
 
       <Pagination

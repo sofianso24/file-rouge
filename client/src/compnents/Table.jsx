@@ -3,7 +3,7 @@ const Table= ()=> {
     const tableItems = [
         {
             Price: "Liam James",
-            Description: "liamjames@example.com",
+            Tasks: "liamjames@example.com",
             Calls: "Software engineer",
              Chat: "$100K"
         },
@@ -18,7 +18,7 @@ const Table= ()=> {
                     <thead className="bg-[#aad4c1] opacity-80 text-white font-medium border-b">
                         <tr>
                             <th className="py-3 px-6">Price</th>
-                            <th className="py-3 px-6">Description</th>
+                            <th className="py-3 px-6">Tasks</th>
                             <th className="py-3 px-6">Calls</th>
                             <th className="py-3 px-6">Chat</th>
                         </tr>
@@ -28,7 +28,7 @@ const Table= ()=> {
                             tableItems.map((item, idx) => (
                                 <tr key={idx}>
                                     <td className="px-6 py-4 whitespace-nowrap">{item.Price}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{item.Description}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.Tasks}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{item.Calls}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{item.Chat}</td>
                                 </tr>

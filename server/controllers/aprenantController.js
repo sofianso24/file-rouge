@@ -76,8 +76,9 @@ export const getAvailableMentors = async(req, res) => {
 
     // Return the list of mentors
 
-    res.status(200).json({ mentors });
+    res.status(200).json( mentors );
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: `Error getting available mentors: ${error.message}` });
   }
 

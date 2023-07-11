@@ -1,12 +1,43 @@
 import Table from "../../compnents/Table"
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useState } from "react";
 import { MdEdit } from 'react-icons/md';
-import Form  from "../../compnents/Form";
+import Form from "../../compnents/Form";
+import axios from 'axios'
+import { useParams } from "react-router-dom";
 
 const ProfilMentor = () => {
+  let { mentorId } = useParams()
+
+  const [isEditing, setIsEditing] = useState(false)
+  // const [isLoading, setIsloading] = useState(false);
+
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    // setIsloading(true)
+    
+
+    const fetchdata = async () => {
+      await axios.get(`http://localhost:8082/mentors/viewProfile/${mentorId}`)
+
+        .then(response => {
+          setData(response.data)
+          // setIsloading(false)
+          console.log(response.data);
+
+        })
+        .catch(error => {
+          console.error('An error occurred while updating the profile:', error);
+        });
+    }
+    fetchdata()
+  }, []);
+
 
   return (
     <>
+    
       <div>
         <div className="relative bg-[#AAD4C1]">
           <div className="max-w-screen-xl mx-auto">
@@ -58,8 +89,11 @@ const ProfilMentor = () => {
                 </div>
               </div>
               <div className="inline-block flex-none items-end gap-x-6 pl-6 sm:pl-0">
-                   <MdEdit className="h-6 w-6 text-white align-bottom" />
-               </div>
+                <MdEdit
+                  className="h-6 w-6 text-white align-bottom cursor-pointer"
+                  onClick={() => setIsEditing(true)} // Open the form when clicked
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -78,27 +112,27 @@ const ProfilMentor = () => {
                   </div>
                 </div>
                 <h1 className="text-slate-900 font-bold text-2xl mb-1">
-                  Saba Mokhlesi
+                  {data?.firstName} {data?.lastName}
                 </h1>
                 <span className="inline-block font-medium text-slate-900 text-md leading-normal">
                   <a className="text-slate-900" href="/career/software-engineer/">
-                    Software Engineer
+                    {data?.domain}
                   </a>
                   <span>@</span>
-                  <a className="text-slate-900" href="/company/microsoft/">Microsoft</a>
+                  <a className="text-slate-900" href="/company/microsoft/">{data?.company}</a>
                 </span><br />
                 <span className="inline-block font-medium text-teal-700 text-md leading-normal mt-[2px]">
-                  Self-taught software engineer at Microsoft
+                  {data?.experience}
                 </span>
                 <div className="mt-5 font-normal text-slate-600">
                   <span className="block mb-2">
                     <a href="/country/ca/" className=" text-slate-600">
                       <svg className="w-5 h-5 text-teal-600 align-sub mr-1 inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"></path></svg>
-                      <span>Canada</span></a>
+                      <span>{data?.localisation}</span></a>
                   </span>
                   <span className="block mb-2">
                     <svg className="w-5 h-5 text-teal-600 align-sub mr-1 inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"></path></svg>
-                    <span>Active this week</span>
+                    <span>{data?.disponibility}</span>
                   </span>
                   <span className="block mb-2">
                     <svg className="w-5 h-5 text-teal-600 align-sub mr-1 inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -107,12 +141,12 @@ const ProfilMentor = () => {
                     </svg>
                     Usually responds
                     <span className="underline tooltip is-tooltip-top is-tooltip-multiline" data-tooltip="This is how quickly Saba usually responds to applications.">
-                      in half a day
+                      {data?.responseTime}
                     </span>
                   </span>
                 </div>
                 <div className="mt-5 flex gap-x-4">
-                  <div onClick="if (!window.__cfRLUnblockHandlers) return false; $('#notifyme').addclassName('is-active');" className="white-btn border small px-[15px] py-[7px] text-sm">
+                  <div className="white-btn border small px-[15px] py-[7px] text-sm">
                     <svg className="w-5 h-5 text-slate-400 align-top mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                       <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"></path>
                     </svg>
@@ -124,29 +158,29 @@ const ProfilMentor = () => {
                 <div className="mb-5">
                   <h3 className="text-slate-900 font-semibold mb-2">
                     rating
-                  </h3> 
-                  
-                    <div class="flex items-center space-x-1">
-                        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                        </svg>
-                        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                        </svg>
-                        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                        </svg>
-                        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                        </svg>
-                        <svg class="w-4 h-4 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                        </svg>
-                    </div>
+                  </h3>
+
+                  <div className="flex items-center space-x-1">
+                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                    </svg>
+                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                    </svg>
+                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                    </svg>
+                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                    </svg>
+                    <svg className="w-4 h-4 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                    </svg>
+                  </div>
 
 
                 </div>
-                
+
               </div>
             </div>
           </div>
@@ -161,28 +195,34 @@ const ProfilMentor = () => {
         <div >
           <div className="inline-block">
             <div className="text-black overflow-hidden leading-normal w-2/3" >
-              <p>Hello aspiring software engineers! I'm Saba, a self-taught software engineer at Microsoft with over 5 years of industry experience.</p>
-              <p>Having successfully transitioned into the software engineering field, I am passionate about helping others embark on a similar journey. As your mentor, I offer a structured approach to learning, providing practical resources, code reviews, mock interviews, and insights into the industry. I believe in fostering an open and collaborative learning environment where you can ask questions, explore new concepts, and gain confidence in your abilities.</p>
-              <p>I'm excited to be a part of your software engineering journey and help you navigate the path to success. Let's work together to unlock your full potential and achieve your career aspirations!</p><p></p>
+              {data?.about}
             </div>
           </div>
         </div>
-       
+
       </div>
-      
-      
+
+
       <hr className="my-12" />
       <div className='ml-20'>
         <h2 className="text-slate-900 font-bold text-2xl mb-1" >
           Services
         </h2>
-        <Table/>
-        <Form/>
+        <Table />
+        {isEditing && (
+
+          <div className="fixed h-[100vh] top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-900 bg-opacity-50 overflow-y-scroll ">
+            {/* <Form onSubmit={handleFormSubmit} onCancel={() => setIsEditing(false)} data={""}/> */}
+            <Form onCancel={setIsEditing} data={data} />
+          </div>
 
 
-       
+        )}
+
+
+
       </div>
-       
+
 
       <hr className="my-12" />
       <div className='ml-20 w-1/2 '>
@@ -190,30 +230,15 @@ const ProfilMentor = () => {
           Skills
         </h2>
         <div className="mt-6">
-          <a href="/filter/typescript/" className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">
-            Typescript
-          </a>
-          <a href="/filter/javascript/" className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">
-            JavaScript
-          </a>
-          <a href="/filter/frontend/" className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">
-            Frontend
-          </a>
-          <a href="/filter/system-design/" className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">
-            System Design
-          </a>
-          <a href="/filter/software-engineering/" className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">
-            Software Engineering
-          </a>
-          <a href="/filter/html/" className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">
-            HTML
-          </a>
-          <a href="/filter/css/" className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">
-            CSS
-          </a>
-          <a href="/filter/react/" className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">
-            React
-          </a>
+          {data?.skills.map((skill, index) => (
+            <a
+              key={index}
+              href="#"
+              className="inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2"
+            >
+              {skill}
+            </a>
+          ))}
         </div>
       </div>
 

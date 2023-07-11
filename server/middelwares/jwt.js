@@ -4,7 +4,7 @@ const { sign, verify } = jwtPackage;
 
 export const createToken = (user) => {
   const authToken = sign(
-    { _id: user._id, mail: user.mail, userType: user.userType },
+    { _id: user._id, mail: user.mail, userRole: user.userRole },
     process.env.SECRET
   );
 
@@ -21,7 +21,7 @@ export const adminAuthValidation = (req, res, next) => {
 
     const decodedToken = verify(authToken, process.env.SECRET);
 
-    if (!decodedToken || decodedToken.userType !== "admin") {
+    if (!decodedToken || decodedToken.userRole !== "admin") {
       return res.status(401).json({ message: "You are not authorized to access this route." });
     }
 
@@ -41,7 +41,7 @@ export const adminAuthValidation = (req, res, next) => {
 
       const decodedToken = verify(authToken, process.env.SECRET);
      
-      if (!decodedToken || decodedToken.userType !== "mentor") {
+      if (!decodedToken || decodedToken.userRole !== "mentor") {
         return res.status(401).json({ message: "You are not authorized to access this route." });
       }
       res.locals.userId = decodedToken._id;
@@ -52,18 +52,19 @@ export const adminAuthValidation = (req, res, next) => {
 
   export const aprenantAuthValidation = (req, res, next) => {
 
+    // const authToken = req.cookies["auth-token"];
     const authToken = req.cookies["auth-token"].authToken;
-   
+   console.log({authToken });
     if (!authToken) {
       return res.status(401).json({ message: "You must be authenticated to access this route." });
     }
  
       const decodedToken = verify(authToken, process.env.SECRET);
-      if (!decodedToken || decodedToken.userType !== "aprenant") {
+  //  console.log(decodedToken);
+      if (!decodedToken || decodedToken.userRole !== "aprenant") {
         return res.status(401).json({ message: "You are not authorized to access this route." });
       }
       
-      console.log(decodedToken)
       res.locals.userId = decodedToken._id;
       next();
   

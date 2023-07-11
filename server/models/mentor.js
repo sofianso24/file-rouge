@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { User } from "./user.js";
 
 const Schema = mongoose.Schema;
 
@@ -8,19 +9,19 @@ const mentorSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "user",
     },
-    domaine: {
+    domain: {
         type: [String],
-        required: true,
+        
     },
     experience :{
         type: String,
-        required : true,
+       
     },
-    disponibilites : {
+    disponibility : {
         type : String,
-        required : true,
+       
     },
-    description : {
+    about : {
         type : String,
        
     },
@@ -35,13 +36,13 @@ const mentorSchema = new Schema(
         min: 0,
         max: 5,
       },
-      companyName: {
+      company: {
         type: String,
       
       },
       skills : {
         type : [String],
-        required : true,
+        
       },
       isAvailable: {
         type: Boolean,
@@ -51,9 +52,15 @@ const mentorSchema = new Schema(
         type: String,
         
       },
-      // image: {
-      //   type: Buffer 
-      // },
+      responseTime:{
+           type:String 
+      },
+      image: {
+        type: String 
+      },
+      price:{
+        type : String
+      },
       sessions: [
         {
           type: Schema.Types.ObjectId,
@@ -76,4 +83,4 @@ const mentorSchema = new Schema(
   { timestamps: true }
 );
 
-export const Mentor = mongoose.model("mentor", mentorSchema);
+export const Mentor = User.discriminator("mentor", mentorSchema);

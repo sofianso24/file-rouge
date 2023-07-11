@@ -1,5 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { FaInstagram, FaTwitter, FaFacebook, FaLinkedin } from 'react-icons/fa';
+
+
 import "../footer/footer.css"
 
 
@@ -42,10 +45,10 @@ const Footer = () => {
           <div className="list">
              <h4>cnnect</h4>
              <div className="social">
-                <Link to="/notFound"></Link>
-                <Link to="/notFound"></Link>
-                <Link to="/notFound"></Link>
-                <Link to="/notFound"></Link>
+                <Link to="/notFound"><FaInstagram/></Link>
+                <Link to="/notFound"><FaLinkedin/></Link>
+                <Link to="/notFound"><FaTwitter/></Link>
+                <Link to="/notFound"><FaFacebook/></Link>
              </div>
           </div>
           <div className="end-text">

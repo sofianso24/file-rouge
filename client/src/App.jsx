@@ -1,6 +1,6 @@
 
 import './App.css'
-import { Routes, Route  } from "react-router-dom"
+import { Routes, Route, useParams  } from "react-router-dom"
 import { useState } from 'react'
 
  {/* Pages */} 
@@ -32,6 +32,8 @@ import SelectButton from '../src/compnents/filtreButtons'
 
 
 function App() {
+
+  let mentorId = useParams()
   
   const [loginUser, setLoginUser] = useState(false)
 
@@ -82,7 +84,7 @@ function App() {
             <Footer />
           </>
         } />
-        <Route path="/profilMentor" element={
+        <Route path="/profilMentor/:mentorId" element={
           <>
             <NavBar />
             <ProfilMentor />

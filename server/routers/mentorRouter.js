@@ -8,7 +8,7 @@ import {mentorAuthValidation} from "../middelwares/jwt.js"
 export const mentorRouter = Express.Router()
 
 
-mentorRouter.get("/viewProfile/:id",mentorAuthValidation,viewMentorProfile)
+mentorRouter.get("/viewProfile/:id",viewMentorProfile)
 mentorRouter.put("/modifierProfile/:id",mentorAuthValidation,updateMentorProfile)
 mentorRouter.get("/sessionsHistory/:id",mentorAuthValidation,mentorSessionHistory)
 mentorRouter.post("/aprenantProgress",mentorAuthValidation,aprenantProgress)
