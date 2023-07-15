@@ -9,10 +9,10 @@ const mentorSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "user",
     },
-    domain: {
-        type: [String],
+    domain: [{
+        type: String,
         
-    },
+    }],
     experience :{
         type: String,
        
@@ -40,10 +40,9 @@ const mentorSchema = new Schema(
         type: String,
       
       },
-      skills : {
-        type : [String],
-        
-      },
+      skills : [{
+        type : String,
+      }],
       isAvailable: {
         type: Boolean,
         default: true,

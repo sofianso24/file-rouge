@@ -1,6 +1,7 @@
 import React from 'react'
 
 const MentorCard = ({mentor}) => {
+  
   return (
     <div className="relative box px-7 py-8 transition-all duration-150 mb-12 max-w-screen-lg mx-auto  border-2 border-solid border-black border-opacity-5 rounded-3xl bg-[#fff]  " style={{ marginBottom: '4rem' }}>
       <div className="absolute top-0 -m-4 right-12 block border-2 border-solid border-gray-200 rounded-2xl bg-white has-text-blue font-bold px-2 py-1 text-sm ">
@@ -102,9 +103,9 @@ const MentorCard = ({mentor}) => {
               </div>
             </div>
             <div className="break-word mt-4 mb-6 max-w-screen-md text-sm leading-6">
-              {mentor.description}
+              {mentor.about}
             </div>
-            <div className="tags">
+            <div className="tags flex flex-wrap">
               {/* <a href="#" className="tag-sm  focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2">{mentor.skills}</a> */}
               {mentor.skills.map((skill, index) => (
                 <a
@@ -122,30 +123,10 @@ const MentorCard = ({mentor}) => {
               <span className="price-element minimize">{mentor.price}</span>
               <span className="inline font-bold text-lg">/&nbsp;month</span>
             </div>
-            <div className="flex space-x-4 cursor-default w-full py-2 mt-2 has-text-blue text-sm font-semibold md:hidden">
-              <div>
-                <svg className="w-5 h-5 align-bottom" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                </svg>&nbsp;
-                Chat
-              </div>
-              <div>
-                <svg className="w-5 h-5  align-bottom" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                </svg>
-                2
-                x&nbsp;Calls
-              </div>
-              <div>
-                <svg className="w-5 h-5  align-bottom" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-                </svg>
-                Tasks
-              </div>
-            </div>
+            
             <hr className="md:hidden mt-4" />
             <div className="md:grid grid-cols-2 mt-8 space-x-4 absolute bottom-0 w-full">
-              <div><a target="_blank" href={`/profilMentor/${mentor._id}`}  className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">View
+              <div ><a target="_blank" href={`/profilMentor/${mentor._id}`}  className="text-white  bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">View
                 Profile</a>
               </div>
             </div>

@@ -8,12 +8,13 @@ import { useParams } from "react-router-dom";
 
 const ProfilMentor = () => {
   let { mentorId } = useParams()
+  
 
   const [isEditing, setIsEditing] = useState(false)
   // const [isLoading, setIsloading] = useState(false);
 
   const [data, setData] = useState(null);
-
+  const [refetch, setRefetch] = useState(false)
   useEffect(() => {
     // setIsloading(true)
     
@@ -32,7 +33,7 @@ const ProfilMentor = () => {
         });
     }
     fetchdata()
-  }, []);
+  }, [refetch]);
 
 
   return (
@@ -140,7 +141,7 @@ const ProfilMentor = () => {
                       <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
                     </svg>
                     Usually responds
-                    <span className="underline tooltip is-tooltip-top is-tooltip-multiline" data-tooltip="This is how quickly Saba usually responds to applications.">
+                    <span className="underline tooltip is-tooltip-top is-tooltip-multiline " data-tooltip="This is how quickly Saba usually responds to applications.">
                       {data?.responseTime}
                     </span>
                   </span>
@@ -208,12 +209,12 @@ const ProfilMentor = () => {
         <h2 className="text-slate-900 font-bold text-2xl mb-1" >
           Services
         </h2>
-        <Table />
+        <Table mentor={data}  />
         {isEditing && (
 
-          <div className="fixed h-[100vh] top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-900 bg-opacity-50 overflow-y-scroll ">
-            {/* <Form onSubmit={handleFormSubmit} onCancel={() => setIsEditing(false)} data={""}/> */}
-            <Form onCancel={setIsEditing} data={data} />
+          <div className="fixed h-[100vh] top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-950  bg-opacity-50 overflow-y-scroll   ">
+           
+            <Form onCancel={setIsEditing} data={data} refetch={setRefetch} />
           </div>
 
 
@@ -225,7 +226,7 @@ const ProfilMentor = () => {
 
 
       <hr className="my-12" />
-      <div className='ml-20 w-1/2 '>
+      <div className='ml-20 w-1/2 pb-28 '>
         <h2 className="text-slate-900 font-bold text-2xl mb-1" id="tags">
           Skills
         </h2>

@@ -5,18 +5,18 @@ import {viewAprenantProfile,updateApprenantProfile,aprenantSessionHistory,
     searchMentorsByPrice,searchMentorsByRating,rateMentor }
      from "../controllers/aprenantController.js"
      
-import {aprenantAuthValidation,} from "../middelwares/jwt.js"
+import {aprenantAutorisation,} from "../middelwares/jwt.js"
 
 export const aprenantRouter = Express.Router()
 
 
-aprenantRouter.get("/viewAprenantProfile/:id",aprenantAuthValidation,viewAprenantProfile)
-aprenantRouter.patch("/updateApprenantProfile/:id",aprenantAuthValidation,updateApprenantProfile)
-aprenantRouter.get("/aprenantSessionHistory/:id",aprenantAuthValidation,aprenantSessionHistory)
-aprenantRouter.get("/getAvailableMentors",aprenantAuthValidation,getAvailableMentors)
-aprenantRouter.post("/requestMentoring",aprenantAuthValidation,requestMentoring)
-aprenantRouter.get("/getSpecificMentor/:id",aprenantAuthValidation,getSpecificMentor)
-aprenantRouter.get("/searchMentorsByDomain",aprenantAuthValidation,searchMentorsByDomain)
-aprenantRouter.get("/searchMentorsByPrice",aprenantAuthValidation,searchMentorsByPrice)
-aprenantRouter.get("/searchMentorsByRating",aprenantAuthValidation,searchMentorsByRating)
-aprenantRouter.post("/rateMentor",aprenantAuthValidation,rateMentor)
+aprenantRouter.get("/viewAprenantProfile/:id",aprenantAutorisation,viewAprenantProfile)
+aprenantRouter.patch("/updateApprenantProfile/:id",aprenantAutorisation,updateApprenantProfile)
+aprenantRouter.get("/aprenantSessionHistory/:id",aprenantAutorisation,aprenantSessionHistory)
+aprenantRouter.get("/getAvailableMentors",getAvailableMentors)
+aprenantRouter.post("/requestMentoring",aprenantAutorisation,requestMentoring)
+aprenantRouter.get("/getSpecificMentor/:id",aprenantAutorisation,getSpecificMentor)
+aprenantRouter.get("/searchMentorsByDomain",aprenantAutorisation,searchMentorsByDomain)
+aprenantRouter.get("/searchMentorsByPrice",aprenantAutorisation,searchMentorsByPrice)
+aprenantRouter.get("/searchMentorsByRating",aprenantAutorisation,searchMentorsByRating)
+aprenantRouter.post("/rateMentor",aprenantAutorisation,rateMentor)

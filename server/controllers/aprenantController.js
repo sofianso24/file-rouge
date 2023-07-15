@@ -1,70 +1,70 @@
 import { Aprenant } from "../models/aprenant.js";
 import { Mentor } from "../models/mentor.js";
-import {MentorshipRequest } from "../models/mentorshipRequest.js";
-import {Session } from "../models/session.js";
+import { MentorshipRequest } from "../models/mentorshipRequest.js";
+import { Session } from "../models/session.js";
 
 // consulter son profil
 
 export const viewAprenantProfile = async (req, res) => {
 
   const apprenantId = req.params.id;
-  
-    try {
-      const aprenant = await Aprenant.findById(apprenantId).populate('userInherit');
-      if (!aprenant) {
-        return res.status(404).json({ message: 'apprenant not found' });
-      }
-      return res.status(200).json({aprenant });
-    } catch (error) {
-      return res.status(500).json({ message: `Server error: ${error.message}` });
+
+  try {
+    const aprenant = await Aprenant.findById(apprenantId).populate('userInherit');
+    if (!aprenant) {
+      return res.status(404).json({ message: 'apprenant not found' });
     }
-  };
+    return res.status(200).json({ aprenant });
+  } catch (error) {
+    return res.status(500).json({ message: `Server error: ${error.message}` });
+  }
+};
 
 
-  // modifier son profil
+// modifier son profil
 
-  export const updateApprenantProfile = async (req, res) => {
+export const updateApprenantProfile = async (req, res) => {
 
-    const { domaineInteret, niveauEtude, description, but  } = req.body;
-    const aprenantId = req.params.id;
-    
-    try {
-      const aprenant = await Aprenant.findById(aprenantId);
-      
-      if (!aprenant) {
-        return res.status(404).json({ message: "aprenant not found" });
-      }
-   
-      aprenant.domaineInteret = domaineInteret;
-      aprenant.niveauEtude = niveauEtude;
-      aprenant.description = description;
-      aprenant.but = but;
-    
-      await aprenant.save();
-  
-      return res.status(200).json({ aprenant });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: "Something went wrong. Please try again later" });
+  const { domaineInteret, niveauEtude, description, but } = req.body;
+  const aprenantId = req.params.id;
+
+  try {
+    const aprenant = await Aprenant.findById(aprenantId);
+
+    if (!aprenant) {
+      return res.status(404).json({ message: "aprenant not found" });
     }
-  };
+
+    aprenant.domaineInteret = domaineInteret;
+    aprenant.niveauEtude = niveauEtude;
+    aprenant.description = description;
+    aprenant.but = but;
+
+    await aprenant.save();
+
+    return res.status(200).json({ aprenant });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Something went wrong. Please try again later" });
+  }
+};
 
 
-  // consultter l'historique des sessions de mentorat
+// consultter l'historique des sessions de mentorat
 
 export const aprenantSessionHistory = async (req, res) => {
 
-    const aprenantId = req.params.id;
-  
-   try {
-      const sessions = await Aprenant.findById(aprenantId).populate("sessions")
+  const aprenantId = req.params.id;
 
-      res.send({sessions})
-    
-   } catch (error) {
+  try {
+    const sessions = await Aprenant.findById(aprenantId).populate("sessions")
+
+    res.send({ sessions })
+
+  } catch (error) {
     console.log(error)
-   }
-  };
+  }
+};
 
 // Consulter la liste des mentors disponibles 
 
@@ -84,10 +84,35 @@ export const getAvailableMentors = async(req, res) => {
 
 }
 
+
+// export const getAvailableMentors = async (req, res) => {
+//   try {
+//     // Get the pagination parameters from the query string
+//     const { page = 1, limit = 5 } = req.query;
+
+//     // Convert the page and limit values to numbers
+//     const pageNumber = parseInt(page);
+//     const limitNumber = parseInt(limit);
+
+//     // Calculate the skip value based on the page and limit
+//     const skip = (pageNumber - 1) * limitNumber;
+
+//     // Find all the mentors who are available with pagination
+//     const mentors = await Mentor.find({ isAvailable: true })
+//       .skip(skip)
+//       .limit(limitNumber);
+
+//     // Return the list of mentors
+//     res.status(200).json(mentors);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: `Error getting available mentors: ${error.message}` });
+//   }
+// };
 // Effectuer une demande de mentorat
 
 export const requestMentoring = async (req, res) => {
-  const { aprenantId, mentorId,message } = req.body;
+  const { aprenantId, mentorId, message } = req.body;
 
   try {
     const aprenant = await Aprenant.findById(aprenantId);
@@ -130,7 +155,7 @@ export const getSpecificMentor = async (req, res) => {
       return res.status(404).json({ message: "Mentor not found." });
     }
 
-    res.status(200).json( {mentor });
+    res.status(200).json({ mentor });
   } catch (error) {
     res.status(500).json({ message: `Error retrieving mentor information: ${error.message}` });
   }
@@ -138,29 +163,28 @@ export const getSpecificMentor = async (req, res) => {
 
 //Rechercher des mentors par domaine
 
-export const searchMentorsByDomain = async(req,res)=>{
+export const searchMentorsByDomain = async (req, res) => {
   const { domain } = req.query;
 
   try {
     // Search for mentors with the specified domain
-
-    const mentors = await Mentor.find({ domaine: domain })
+    const mentors = await Mentor.find({ domain: { $in: [domain] } });
 
     res.status(200).json({ mentors });
   } catch (error) {
     res.status(500).json({ message: `Error searching for mentors: ${error.message}` });
   }
-}
+};
 
 //Rechercher des mentors par prixHoraire
 
-export const searchMentorsByPrice = async(req,res)=>{
-  const { Prix } = req.query;
+export const searchMentorsByPrice = async (req, res) => {
+  const { price } = req.query;
 
   try {
     // Search for mentors with the specified price
 
-    const mentors = await Mentor.find({ prixHoraire: Prix })
+    const mentors = await Mentor.find({ price })
 
     res.status(200).json({ mentors });
   } catch (error) {
@@ -170,13 +194,13 @@ export const searchMentorsByPrice = async(req,res)=>{
 
 // Rechercher des mentors par rating
 
-export const searchMentorsByRating = async(req,res)=>{
+export const searchMentorsByRating = async (req, res) => {
   const { rating } = req.query;
 
   try {
     // Search for mentors with the specified rating
 
-    const mentors = await Mentor.find({  rating: rating }).populate('sessions');
+    const mentors = await Mentor.find({ rating: rating }).populate('sessions');
 
     res.status(200).json({ mentors });
   } catch (error) {
@@ -198,9 +222,9 @@ export const rateMentor = async (req, res) => {
     }
 
     // check if l'aprenant had a session with the mentor so he can rate him
-    
-    if (res.locals.userId !== session.aprenant._id){
-      return res.send({message : "you cant rate this mentor"})
+
+    if (res.locals.userId !== session.aprenant._id) {
+      return res.send({ message: "you cant rate this mentor" })
     }
 
 
@@ -222,7 +246,7 @@ export const rateMentor = async (req, res) => {
     const mentorOverallRating = mentorRatings.length > 0 ? mentorRatings.reduce((total, rating) => total + rating) / mentorRatings.length : 0;
 
     // Update the mentor's overall rating
-    
+
     const mentor = await Mentor.findById(session.mentor._id);
     mentor.rating = mentorOverallRating;
     await mentor.save();

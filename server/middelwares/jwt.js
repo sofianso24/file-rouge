@@ -11,7 +11,7 @@ export const createToken = (user) => {
   return authToken;
 };
 
-export const adminAuthValidation = (req, res, next) => {
+export const adminAutorisation = (req, res, next) => {
 
     const authToken = req.cookies["auth-token"].authToken;
    
@@ -31,7 +31,7 @@ export const adminAuthValidation = (req, res, next) => {
   };
 
 
-  export const mentorAuthValidation = (req, res, next) => {
+  export const mentorAutorisation = (req, res, next) => {
 
     const authToken = req.cookies["auth-token"].authToken;
 
@@ -50,11 +50,11 @@ export const adminAuthValidation = (req, res, next) => {
   };
 
 
-  export const aprenantAuthValidation = (req, res, next) => {
+  export const aprenantAutorisation = (req, res, next) => {
 
     // const authToken = req.cookies["auth-token"];
     const authToken = req.cookies["auth-token"].authToken;
-   console.log({authToken });
+   
     if (!authToken) {
       return res.status(401).json({ message: "You must be authenticated to access this route." });
     }

@@ -12,7 +12,7 @@ import logo from "../../assets/logo.png"
 
 const navigation = [
   { name: 'HOME', href: 'http://localhost:5173/' },
-  { name: 'FIND A MENTOR', href: 'http://localhost:5173/mentors',  },
+  { name: 'FIND MENTORS', href: 'http://localhost:5173/mentors',  },
 ]
 
 function classNames(...classes) {

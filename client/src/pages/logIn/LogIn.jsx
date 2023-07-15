@@ -7,14 +7,14 @@ import Logo from "../../assets/logo.png"
 
 const LogIn = ({setLoginUser}) => {
 
-const [email,setEmail] = useState("")
+const [mail,setMail] = useState("")
 const [password,setPassword] = useState("")
 const navigate = useNavigate()
 
   
     const handleLogin = (e) => {
         e.preventDefault()
-        axios.post("http://localhost:8082/users/login", {mail:email, password}, {withCredentials:true})
+        axios.post("http://localhost:8082/users/login", {mail, password}, {withCredentials:true})
             .then(res => {
                 setLoginUser(true)
                 navigate("/")
@@ -47,7 +47,7 @@ const navigate = useNavigate()
                             required
                             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                             name="email"
-                            onChange={(e)=>setEmail(e.target.value)}
+                            onChange={(e)=>setMail(e.target.value)}
                             placeholder="your email"
                         />
                     </div>

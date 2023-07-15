@@ -1,26 +1,28 @@
 import React from 'react'
+import axios from "axios"
 import { useState } from 'react';
-import {useParams} from "react-router-dom"
+import { useParams } from "react-router-dom"
 
-const Form = ({data, onCancel}) => {
-    
-    let {mentorId} = useParams()
+const Form = ({ data, onCancel, refetch }) => {
 
-     const servicesItems = ['Tasks', 'Chat', 'Calls'];
-    
-    const [firstName, setFirstName] = useState(data?.firstName) ;
+    let { mentorId } = useParams()
+
+    const servicesItems = ['Tasks', 'Chat', 'Calls'];
+
+    const [firstName, setFirstName] = useState(data?.firstName);
     const [lastName, setLastName] = useState(data?.lastName);
-    const [domain, setDomain] = useState([]);
-    const [company, setCompany] = useState('');
-    const [experience, setExperience] = useState('');
-    const [about, setAbout] = useState('');
-    const [skills, setSkills] = useState([]);
-    const [localisation, setLocalisation] = useState('');
-    const [disponibility, setDisponibility] = useState('');
-    const [responseTime, setResponseTime] = useState('');
-    const [price, setPrice] = useState('');
+    const [domain, setDomain] = useState(data?.domain);
+    const [company, setCompany] = useState(data?.company);
+    const [experience, setExperience] = useState(data?.experience);
+    const [about, setAbout] = useState(data?.about);
+    const [skills, setSkills] = useState(data?.skills);
+    const [skillValue, setSkillValue] = useState("");
+    const [localisation, setLocalisation] = useState(data?.localisation);
+    const [disponibility, setDisponibility] = useState(data?.disponibility);
+    const [responseTime, setResponseTime] = useState(data?.responseTime);
+    const [price, setPrice] = useState(data?.price);
 
-      const handleFormSubmit = async (event) => {
+    const handleFormSubmit = async (event) => {
         event.preventDefault();
         // Make an API call to update the mentor profile with the form data
         const formData = {
@@ -38,11 +40,15 @@ const Form = ({data, onCancel}) => {
         };
 
 
-           
+
         // Make the API call with the formData object
-            await axios.put(`http://localhost:8082/mentors/modifierProfile/${mentorId}`, formData)
+        await axios.put(`http://localhost:8082/mentors/modifierProfile/${mentorId}`, formData,{
+            withCredentials: true
+    
+            })
             .then(response => {
                 onCancel(false)
+                refetch(prev => !prev)
                 console.log('Profile updated successfully!');
             })
             .catch(error => {
@@ -50,12 +56,26 @@ const Form = ({data, onCancel}) => {
             });
     };
 
-        
+    const handdleSkillValue = (e) => {
+        e.preventDefault()
+        setSkillValue(e.target.value)
+    }
+
+    const handleAddSills = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault()
+            setSkillValue("")
+            setSkills([...skills, skillValue])
+            return
+        }
+        return 
+    }
+
     return (
         <>
-            <form className=" p-12 h-[95vh] pt-20 md:pt-12 w-[1000px] bg-e overflow-auto " onSubmit={handleFormSubmit}>
+            <form className=" p-12 h-[95vh] pt-20 md:pt-25 w-[1000px] bg-e overflow-auto " onSubmit={handleFormSubmit}>
                 <div className="grid md:grid-cols-2 md:gap-6">
-                    <div className="relative z-0 w-full mb-6 group">
+                    <div className="relative z-0 w-full mb-6 group ">  
                         <input
                             type="text"
                             name="floating_first_name"
@@ -68,7 +88,7 @@ const Form = ({data, onCancel}) => {
                         />
                         <label
                             htmlFor="floating_first_name"
-                            className="peer-focus:font-medium absolute text-sm text-white dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-white peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            className="peer-focus:font-medium absolute text-sm text-slate-300 dark:text-slate-300 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-slate-300 peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                             First Name
                         </label>
@@ -83,11 +103,11 @@ const Form = ({data, onCancel}) => {
                             className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer"
                             placeholder=" "
                             required
-                            
+
                         />
                         <label
                             htmlFor="floating_last_name"
-                            className="peer-focus:font-medium absolute text-sm text-white dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-white peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            className="peer-focus:font-medium absolute text-sm text-slate-300 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-slate-300 peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                             Last Name
                         </label>
@@ -103,11 +123,11 @@ const Form = ({data, onCancel}) => {
                             onChange={(e) => setDomain(e.target.value)}
                             className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer"
                             placeholder=" "
-                            
+
                         />
                         <label
                             htmlFor="floating_phone"
-                            className="peer-focus:font-medium absolute text-sm text-white dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-white peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            className="peer-focus:font-medium absolute text-sm text-slate-300 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-slate-300 peer-focus:dark:text-slate-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                             Domain
                         </label>
@@ -121,16 +141,16 @@ const Form = ({data, onCancel}) => {
                             onChange={(e) => setCompany(e.target.value)}
                             className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer"
                             placeholder=" "
-                            
+
                         />
                         <label
                             htmlFor="floating_company"
-                            className="peer-focus:font-medium absolute text-sm text-white dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-white peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            className="peer-focus:font-medium absolute text-sm text-slate-300 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:slate-300 peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                             Company
                         </label>
                     </div>
-                  
+
                 </div>
                 <div className="grid md:grid-cols-2 md:gap-6">
                     <div className="relative z-0 w-full mb-6 group">
@@ -142,11 +162,11 @@ const Form = ({data, onCancel}) => {
                             onChange={(e) => setAbout(e.target.value)}
                             className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer"
                             placeholder=" "
-                            
+
                         />
                         <label
                             htmlFor="floating_phone"
-                            className="peer-focus:font-medium absolute text-sm text-white dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-white peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            className="peer-focus:font-medium absolute text-sm text-slate-300 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-slate-300 peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                             About
                         </label>
@@ -156,18 +176,23 @@ const Form = ({data, onCancel}) => {
                             type="text"
                             name="floating_company"
                             id="floating_company"
-                            value={skills}
-                            onChange={(e) => setSkills(e.target.value)}
+                            value={skillValue}
+                            onChange={handdleSkillValue}
+                            onKeyDown={handleAddSills}
                             className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer"
                             placeholder=" "
-                            
                         />
                         <label
                             htmlFor="floating_company"
-                            className="peer-focus:font-medium absolute text-sm text-white dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-white peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            className="peer-focus:font-medium absolute text-sm text-slate-300 dark:text-slate-300 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-slate-300 peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                             Skills
                         </label>
+                        <div>
+                            {skills?.map(skill => {
+                                return <span className='inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2' >{skill}</span>
+                            })}
+                        </div>
                     </div>
                 </div>
                 <div className="grid md:grid-cols-2 md:gap-6">
@@ -180,11 +205,11 @@ const Form = ({data, onCancel}) => {
                             onChange={(e) => setLocalisation(e.target.value)}
                             className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer"
                             placeholder=" "
-                            
+
                         />
                         <label
                             htmlFor="floating_phone"
-                            className="peer-focus:font-medium absolute text-sm text-white dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-white peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            className="peer-focus:font-medium absolute text-sm text-slate-300 dark:text-slate-300 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-slate-300 peer-focus:dark:text-slate-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                             Localisation
                         </label>
@@ -198,11 +223,11 @@ const Form = ({data, onCancel}) => {
                             onChange={(e) => setDisponibility(e.target.value)}
                             className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer"
                             placeholder=" "
-                            
+
                         />
                         <label
                             htmlFor="floating_company"
-                            className="peer-focus:font-medium absolute text-sm text-white dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-white peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            className="peer-focus:font-medium absolute text-sm text-slate-300 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-slate-300 peer-focus:dark:text-slate-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                             Disponibility
                         </label>
@@ -218,11 +243,11 @@ const Form = ({data, onCancel}) => {
                             onChange={(e) => setResponseTime(e.target.value)}
                             className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer"
                             placeholder=" "
-                            
+
                         />
                         <label
                             htmlFor="floating_phone"
-                            className="peer-focus:font-medium absolute text-sm text-white dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-white peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            className="peer-focus:font-medium absolute text-sm text-slate-300 dark:text-slate-300 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-slate-300 peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                             Response Time
                         </label>
@@ -236,11 +261,11 @@ const Form = ({data, onCancel}) => {
                             onChange={(e) => setPrice(e.target.value)}
                             className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer"
                             placeholder=" "
-                            
+
                         />
                         <label
                             htmlFor="floating_company"
-                            className="peer-focus:font-medium absolute text-sm text-white dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-white peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            className="peer-focus:font-medium absolute text-sm text-slate-300 dark:text-slate-300 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-slate-300 peer-focus:dark:text-slate-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                             Price
                         </label>
@@ -256,11 +281,11 @@ const Form = ({data, onCancel}) => {
                             onChange={(e) => setExperience(e.target.value)}
                             className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer"
                             placeholder=" "
-                            
+
                         />
                         <label
                             htmlFor="floating_company"
-                            className="peer-focus:font-medium absolute text-sm text-white dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-white peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            className="peer-focus:font-medium absolute text-sm text-slate-300 dark:text-slate-300 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-slate-300 peer-focus:dark:text-slate-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
                             Experience
                         </label>
@@ -294,7 +319,7 @@ const Form = ({data, onCancel}) => {
                     Submit
                 </button>
                 <button
-                onClick={()=> onCancel(false)}
+                    onClick={() => onCancel(false)}
                     type="cancel"
                     className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 mt-4"
                 >

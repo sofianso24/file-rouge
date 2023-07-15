@@ -1,16 +1,22 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const query = searchParams.get('search');
+    setSearchTerm(query || '');
+  }, [location]);
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchTerm.trim() !== '') {
-        
-        navigate(`/mentors?search=${encodeURIComponent(searchTerm)}`);
-      }
+      navigate(`/mentors?search=${encodeURIComponent(searchTerm)}`);
+    }
   };
 
   return (

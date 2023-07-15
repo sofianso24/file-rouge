@@ -9,27 +9,27 @@ import { UserContext } from '../../../context';
 const SignUp = () => {
     
     const { setUser } = useContext(UserContext);
-    const [role, setRole] = useState('aprenant');
-    const [name, setName] = useState('');
-    const [prenom, setPrenom] = useState('');
-    const [email, setEmail] = useState('');
+    const [userRole, setUserrole] = useState('aprenant');
+    const [firstName, setFirstname] = useState('');
+    const [lastName, setLastname] = useState('');
+    const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
   
     const handleRegister = () => {
  
-      if (name && email && password && role && prenom) {
+      if (firstName && mail && password && userRole && lastName) {
         axios
           .post('http://localhost:8082/users/registration', {
-            nom: name,
-            prenom,
-            mail: email,
+            firstName,
+            lastName,
+            mail,
             password,
-            userRole: role,
+            userRole,
           })
           .then((res) => {
             console.log(res);
-            setUser({ username: name, email, role }); 
+            setUser({ firstName,lastName, mail, userRole }); 
           })
           .then(() => navigate('/logIn'));
       } else {
@@ -90,36 +90,36 @@ const SignUp = () => {
                             <select 
                                 className='w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg'
                                 name = "User role"
-                                value={role}
-                                onChange={(e)=>setRole(e.target.value)}>
+                                value={userRole}
+                                onChange={(e)=>setUserrole(e.target.value)}>
                                 <option value="aprenant" >aprenant  </option>
                                 <option value="mentor">mentor  </option>
                              </select>
                         </div>
                         <div>
                             <label className="font-medium">
-                                Nom
+                                first name
                             </label>
                             <input
                                 type="text"
                                 required
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                                 name='name'
-                                onChange={(e)=> setName(e.target.value)}
-                                placeholder='nom'
+                                onChange={(e)=> setFirstname(e.target.value)}
+                                placeholder='first name'
                             />
                         </div>
                         <div>
                             <label className="font-medium">
-                                Prenom
+                                last name
                             </label>
                             <input
                                 type="text"
                                 required
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                                name='prenom'
-                                onChange={(e)=> setPrenom(e.target.value)}
-                                placeholder='prenom'
+                                name='last name'
+                                onChange={(e)=> setLastname(e.target.value)}
+                                placeholder='last name'
                             />
                         </div>
                         <div>
@@ -131,7 +131,7 @@ const SignUp = () => {
                                 required
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                                 name='email'
-                                onChange={(e)=> setEmail(e.target.value)}
+                                onChange={(e)=> setMail(e.target.value)}
                                 placeholder='email'
                             />
                         </div>

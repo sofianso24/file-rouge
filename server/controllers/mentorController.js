@@ -25,6 +25,7 @@ export const viewMentorProfile = async (req, res) => {
 
     const { lastName,firstName,company, domain, experience, disponibility, about, skills,localisation,responseTime,price,image } = req.body;
     const mentorId = req.params.id;
+   
     
     try {
       const mentor = await Mentor.findById(mentorId);
