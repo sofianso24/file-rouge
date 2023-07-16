@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-const Search = () => {
+const Search = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
@@ -16,6 +16,7 @@ const Search = () => {
     e.preventDefault();
     if (searchTerm.trim() !== '') {
       navigate(`/mentors?search=${encodeURIComponent(searchTerm)}`);
+      onSearch(searchTerm); // Call the onSearch function passed from the parent component
     }
   };
 
