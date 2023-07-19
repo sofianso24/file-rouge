@@ -21,6 +21,7 @@ const Form = ({ data, onCancel, refetch }) => {
     const [disponibility, setDisponibility] = useState(data?.disponibility);
     const [responseTime, setResponseTime] = useState(data?.responseTime);
     const [price, setPrice] = useState(data?.price);
+    const [image, setImage] = useState();
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
@@ -37,6 +38,7 @@ const Form = ({ data, onCancel, refetch }) => {
             disponibility,
             responseTime,
             price,
+            image
         };
 
 
@@ -73,7 +75,7 @@ const Form = ({ data, onCancel, refetch }) => {
 
     return (
         <>
-            <form className=" p-12 h-[95vh] pt-20 md:pt-25 w-[1000px] bg-e overflow-auto " onSubmit={handleFormSubmit}>
+            <form className=" p-12 h-[95vh] pt-20 md:pt-25 w-[1000px] bg-e overflow-auto " onSubmit={handleFormSubmit} enctype="multipart/form-data">
                 <div className="grid md:grid-cols-2 md:gap-6">
                     <div className="relative z-0 w-full mb-6 group ">  
                         <input
@@ -289,7 +291,24 @@ const Form = ({ data, onCancel, refetch }) => {
                         >
                             Experience
                         </label>
+                        
                     </div>
+                    <input
+                            type="file"
+                            name="floating_company"
+                            id="floating_company"
+                            value={image}
+                            onChange={(e) => setImage(e.target.value)}
+                            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer "
+                            placeholder="profile image"
+
+                        />
+                        <label
+                            htmlFor="floating_company"
+                            className="peer-focus:font-medium absolute text-sm text-slate-300 dark:text-slate-300 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-slate-300 peer-focus:dark:text-slate-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                            Profile image
+                        </label>
 
                     <label className="font-medium text-white">Services</label>
                     <ul className="grid gap-y-2 gap-x-6 flex-wrap grid-cols-2 mt-3 text-white">

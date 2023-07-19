@@ -111,6 +111,7 @@ export const getAvailableMentors = async(req, res) => {
 // };
 // Effectuer une demande de mentorat
 
+
 export const requestMentoring = async (req, res) => {
   const { aprenantId, mentorId, message } = req.body;
 
@@ -161,14 +162,14 @@ export const getSpecificMentor = async (req, res) => {
   }
 }
 
-//Rechercher des mentors par domaine
+//filtrer des mentors par domaine
 
-export const searchMentorsByDomain = async (req, res) => {
+export const filtreMentorsByDomain = async (req, res) => {
   const { domain } = req.query;
 
   try {
     // Search for mentors with the specified domain
-    const mentors = await Mentor.find({ domain: { $in: [domain] } });
+    const mentors = await Mentor.find({ domain: { $in: JSON.parse(domain) } });
 
     res.status(200).json({ mentors });
   } catch (error) {
@@ -176,9 +177,9 @@ export const searchMentorsByDomain = async (req, res) => {
   }
 };
 
-//Rechercher des mentors par prixHoraire
+//filtrer des mentors par prixHoraire
 
-export const searchMentorsByPrice = async (req, res) => {
+export const filtreMentorsByPrice = async (req, res) => {
   const { price } = req.query;
 
   try {
@@ -192,9 +193,30 @@ export const searchMentorsByPrice = async (req, res) => {
   }
 }
 
-// Rechercher des mentors par rating
 
-export const searchMentorsByRating = async (req, res) => {
+//filtrer des mentors par skills
+
+export const filtreMentorsByskill = async (req, res) => {
+  const { skills } = req.query;
+
+
+  try {
+
+    // filtrer for mentors with the specified skill
+
+    const mentors = await Mentor.find({ skills: { $in: JSON.parse(skills) } });
+
+    res.status(200).json({ mentors });
+  } catch (error) {
+    res.status(500).json({ message: `Error searching for mentors: ${error.message}` });
+  }
+};
+
+
+
+// filtrer des mentors par rating
+
+export const filtreMentorsByRating = async (req, res) => {
   const { rating } = req.query;
 
   try {
@@ -255,4 +277,82 @@ export const rateMentor = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: `Error rating mentor: ${error.message}` });
   }
+};
+
+
+
+
+// filter les mentors :
+
+export const filtreMentors = async (req, res) => {
+  const { skills, domain, price } = req.query;
+  const querySkills = skills.split(",")
+  const queryDomain = domain.split(",")
+  const queryPrice = price.split(",")
+
+
+
+  if (skills === "" & price === "" & domain !== "") {
+   
+    try {
+  
+      const mentors = await Mentor.find({domain: { $in: queryDomain }});
+  
+      return res.status(200).json({ mentors });
+    } catch (error) {
+       return res.status(500).json({ message: `Error searching for mentors: ${error.message}` });
+    }
+  }
+
+  if (domain === "" & skills !== "" & price === "") {
+   
+    try {
+  
+      const mentors = await Mentor.find({skills: { $in: querySkills }});
+  
+      return res.status(200).json({ mentors });
+    } catch (error) {
+       return res.status(500).json({ message: `Error searching for mentors: ${error.message}` });
+    }
+  }
+
+  if (domain === "" & price !== "" & skills === "") {
+  
+    try {
+  
+      const mentors = await Mentor.find({price: { $in: queryPrice }});
+  
+      return res.status(200).json({ mentors });
+    } catch (error) {
+       return res.status(500).json({ message: `Error searching for mentors: ${error.message}` });
+    }
+  }
+
+  if (skills === "" & domain === "" & price === "") {
+  
+    try {
+  
+      const mentors = await Mentor.find();
+  
+      return res.status(200).json({ mentors });
+    } catch (error) {
+       return res.status(500).json({ message: `Error searching for mentors: ${error.message}` });
+    }
+    
+  }
+
+if (skills !== "" & domain !== "" & price !== "") {
+  try {
+
+
+    // filtrer for mentors with the specified skill
+
+    const mentors = await Mentor.find({ skills: { $in: querySkills },domain: { $in: queryDomain }, price: { $in: queryPrice }});
+
+    res.status(200).json({ mentors });
+  } catch (error) {
+    res.status(500).json({ message: `Error searching for mentors: ${error.message}` });
+  }
+}
+  
 };

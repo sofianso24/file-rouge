@@ -4,14 +4,15 @@ import mongoose from "mongoose";
 import WebSocket from "ws";
 import cookieParser from "cookie-parser"
 import cors from "cors"
+import multer from "multer";
 
-import {adminRouter} from "./routers/adminRouter.js"
-import {mentorRouter} from "./routers/mentorRouter.js"
-import {aprenantRouter} from "./routers/aprenantRouter.js"
-import {userRouter} from "./routers/userRouter.js"
-import {sessionRouter} from "./routers/sessionRouter.js"
-import {sessionFeedbackRouter} from "./routers/sessionFeedbackRouter.js"
-import { mentorshipRequestRouter} from "./routers/mentorshipRequestRouter.js"
+import { adminRouter } from "./routers/adminRouter.js"
+import { mentorRouter } from "./routers/mentorRouter.js"
+import { aprenantRouter } from "./routers/aprenantRouter.js"
+import { userRouter } from "./routers/userRouter.js"
+import { sessionRouter } from "./routers/sessionRouter.js"
+import { sessionFeedbackRouter } from "./routers/sessionFeedbackRouter.js"
+import { mentorshipRequestRouter } from "./routers/mentorshipRequestRouter.js"
 import { messageRouter } from "./routers/messageRouter.js";
 
 dotenv.config();
@@ -32,8 +33,23 @@ mongoose
     console.log(err);
   });
 
-  
-  // web socket
+
+// Multer configuration
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // Specify the destination directory where uploaded files will be stored
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname));
+  },
+});
+
+ const upload = multer({ storage: storage });
+
+
+// web socket
 
 // const wss = new WebSocket.Server({ port: 8080 }); 
 
@@ -53,17 +69,21 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
+
 app.use(cors({
   origin: "http://localhost:5173",
   optionsSuccessStatus: 204,
   credentials: true
 }))
 
-app.use("/admins",adminRouter)
-app.use("/mentors",mentorRouter)
-app.use("/aprenants",aprenantRouter)
-app.use("/users",userRouter)
-app.use("/sessions",sessionRouter)
-app.use("/sessionFeedbacks",sessionFeedbackRouter)
-app.use("/requests",mentorshipRequestRouter)
-app.use("/message",messageRouter)
+// app.use('/upload', express.static('upload'));
+app.use(upload.single("image"))
+
+app.use("/admins", adminRouter)
+app.use("/mentors", mentorRouter);
+app.use("/aprenants", aprenantRouter)
+app.use("/users", userRouter)
+app.use("/sessions", sessionRouter)
+app.use("/sessionFeedbacks", sessionFeedbackRouter)
+app.use("/requests", mentorshipRequestRouter)
+app.use("/message", messageRouter)

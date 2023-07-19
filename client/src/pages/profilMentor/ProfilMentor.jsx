@@ -8,16 +8,24 @@ import { useParams } from "react-router-dom";
 
 const ProfilMentor = () => {
   let { mentorId } = useParams()
-  
+
 
   const [isEditing, setIsEditing] = useState(false)
   // const [isLoading, setIsloading] = useState(false);
 
   const [data, setData] = useState(null);
   const [refetch, setRefetch] = useState(false)
+  // const [selectedImage, setSelectedImage] = useState(null);
+
+  // const handleImageChange = (event) => {
+  //   setSelectedImage(event.target.files[0]);
+  // };
+
+
+
   useEffect(() => {
     // setIsloading(true)
-    
+
 
     const fetchdata = async () => {
       await axios.get(`http://localhost:8082/mentors/viewProfile/${mentorId}`)
@@ -38,7 +46,7 @@ const ProfilMentor = () => {
 
   return (
     <>
-    
+
       <div>
         <div className="relative bg-[#AAD4C1]">
           <div className="max-w-screen-xl mx-auto">
@@ -77,7 +85,21 @@ const ProfilMentor = () => {
             </nav>
             <div className="-mt-12 w-full lg:w-1/2 xl:w-2/3 px-4 pb-8 align-bottom flex items-end">
               <div className="inline-block w-48 h-48 relative top-20 rounded-full overflow-hidden bg-white p-1 flex-none">
-                <img className="w-full h-full rounded-full" src="https://cdn.mentorcruise.com/cache/ea4815d1775e691a499aeb79e60e7cfb/eb2b41bd16efdcb5/98b6275fe613a52f34b0d17818011dc2.jpg" alt="Saba Mokhlesi" />
+                <div className="inline-block w-48 h-48 relative top-20 rounded-full overflow-hidden bg-white p-1 flex-none">
+                  {data?.image}
+                </div>
+                {/* {selectedImage ? (
+          <img
+            className="w-full h-full rounded-full"
+            src={URL.createObjectURL(selectedImage)}
+            alt="Mentor Photo"
+          />
+        ) : (
+          <div>
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+            <span>Upload Photo</span>
+          </div>
+        )} */}
               </div>
               <div className="hidden sm:inline-block ml-6 grow">
                 <div className="flex items-end gap-x-4">
@@ -209,11 +231,11 @@ const ProfilMentor = () => {
         <h2 className="text-slate-900 font-bold text-2xl mb-1" >
           Services
         </h2>
-        <Table mentor={data}  />
+        <Table mentor={data} />
         {isEditing && (
 
           <div className="fixed h-[100vh] top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-950  bg-opacity-50 overflow-y-scroll   ">
-           
+
             <Form onCancel={setIsEditing} data={data} refetch={setRefetch} />
           </div>
 

@@ -9,31 +9,31 @@ const aprenantSchema = new Schema(
     //   type: Schema.Types.ObjectId,
     //   ref: "user",
     // },
-    domaineInteret: {
+    domainInteret: {
         type: [String],
         // required: true,
     },
-    niveauEtude :{
+    studyLevel :{
         type: String,
         // required : true,
     },
-    disponibilites : {
+    availability : {
         type : String,
         // required : true,
     },
-    description : {
+    about : {
         type : String,
     },
-    but : {
+    goal : {
         type : String, 
     },
-    progres: {
+    progress: {
         type: Number,
         min: 0,
         max: 100,
       },
       image: {
-        type: Buffer 
+        type: String 
       },
       sessions: [
         {

@@ -60,10 +60,10 @@ function App() {
                 <HeaderText text={"Mentees testimonials"} />
                 <TestimonialCardSlider />
               </section>
-              <section className="flex-grow bg-[#f9fff5]">
+              {/* <section className="flex-grow bg-[#f9fff5]">
                 <HeaderText text={"Best mentors "} />
                 <MentorCardSlider />
-              </section>
+              </section> */}
               <Footer />
             </>
           } />

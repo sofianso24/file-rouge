@@ -1,8 +1,8 @@
 import  Express  from "express";
 
 import {viewAprenantProfile,updateApprenantProfile,aprenantSessionHistory,
-    getAvailableMentors,requestMentoring,getSpecificMentor,searchMentorsByDomain,
-    searchMentorsByPrice,searchMentorsByRating,rateMentor }
+    getAvailableMentors,requestMentoring,getSpecificMentor,filtreMentorsByDomain,
+    filtreMentorsByPrice,filtreMentorsByRating,rateMentor, filtreMentorsByskill, filtreMentors }
      from "../controllers/aprenantController.js"
      
 import {aprenantAutorisation,} from "../middelwares/jwt.js"
@@ -16,7 +16,9 @@ aprenantRouter.get("/aprenantSessionHistory/:id",aprenantAutorisation,aprenantSe
 aprenantRouter.get("/getAvailableMentors",getAvailableMentors)
 aprenantRouter.post("/requestMentoring",aprenantAutorisation,requestMentoring)
 aprenantRouter.get("/getSpecificMentor/:id",aprenantAutorisation,getSpecificMentor)
-aprenantRouter.get("/searchMentorsByDomain",aprenantAutorisation,searchMentorsByDomain)
-aprenantRouter.get("/searchMentorsByPrice",aprenantAutorisation,searchMentorsByPrice)
-aprenantRouter.get("/searchMentorsByRating",aprenantAutorisation,searchMentorsByRating)
+aprenantRouter.get("/filtreMentorsByDomain",aprenantAutorisation,filtreMentorsByDomain)
+aprenantRouter.get("/filtreMentorsBySkills",aprenantAutorisation,filtreMentorsByskill)
+aprenantRouter.get("/filtreMentorsByPrice",aprenantAutorisation,filtreMentorsByPrice)
+aprenantRouter.get("/filtreMentors",filtreMentors)
+aprenantRouter.get("/filtreMentorsByRating",aprenantAutorisation,filtreMentorsByRating)
 aprenantRouter.post("/rateMentor",aprenantAutorisation,rateMentor)
