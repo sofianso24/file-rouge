@@ -3,9 +3,9 @@ const  Table= ({mentor})=> {
     const tableItems = [
         {
             
-            Tasks: "liamjames@example.com",
-            Calls: "Software engineer",
-             Chat: "$100K"
+            Tasks: "include",
+            Calls: "include",
+             Chat: "include"
         },
        
     ]

@@ -138,7 +138,8 @@ export const logIn = async (req, res) => {
 
     res.cookie("userId", { userId });
     res.cookie("userRole", { userRole });
-    res.status(200).json("user loged in succesfully");
+    res.status(200).json({message:"user loged in succesfully",user: {userId, userRole}});
+    
   } catch (error) {
     console.log(error);
   }

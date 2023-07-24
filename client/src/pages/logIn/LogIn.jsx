@@ -17,6 +17,11 @@ const navigate = useNavigate()
         axios.post("http://localhost:8082/users/login", {mail, password}, {withCredentials:true})
             .then(res => {
                 setLoginUser(true)
+                
+                
+                const userResponse = JSON.stringify(res.data.user )
+               
+                localStorage.user = userResponse
                 navigate("/")
             })  
             .catch(error => {

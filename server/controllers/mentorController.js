@@ -1,5 +1,8 @@
-import path from "path";
-import multer from "multer";
+
+import cloudinary from "cloudinary";
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
 
 import { Aprenant } from "../models/aprenant.js";
 import { Mentor } from "../models/mentor.js"
@@ -25,13 +28,12 @@ export const viewMentorProfile = async (req, res) => {
 
 export const updateMentorProfile = async (req, res) => {
 
-  console.log(req)
-  return 
+ 
   const { lastName, firstName, company, domain, experience, disponibility, about, skills, localisation, responseTime, price } = req.body;
 
   const mentorId = req.params.id;
 
-
+ 
   try {
     const mentor = await Mentor.findById(mentorId);
 
@@ -50,10 +52,6 @@ export const updateMentorProfile = async (req, res) => {
     mentor.price = price;
     mentor.skills = skills;
 
-    // Check if a file is uploaded
-    if (req.file) {
-      mentor.image = req.file.filename; // Save the filename to the mentor's image field
-    }
 
     await mentor.save();
 
@@ -64,6 +62,54 @@ export const updateMentorProfile = async (req, res) => {
   }
 };
 
+
+// modifier son profilImage 
+
+export const updateMentorImage = async (req, res) => {
+  console.log(req.file);
+  try {
+
+    const mentorId = req.params.id;
+    const mentor = await Mentor.findById(mentorId);
+
+    if (!mentor) {
+      return res.status(404).json({ message: 'Mentor not found' });
+    }
+
+    // Check if there is an image in the request
+
+    if (!req.file) {
+      return res.status(400).json({ message: 'Image not provided' });
+    }
+
+    //verify image url existence 
+    if (mentor?.image?.url !== "") {
+      await cloudinary.uploader.destroy(mentor?.image?.publicId)
+    }
+
+    // Upload image to Cloudinary
+    const file = req.file
+    const fileTobase64 = Buffer.from(file.buffer).toString("base64")
+    const fileUrl = `data:${file.mimetype};base64,${fileTobase64}`
+    const result = await cloudinary.uploader.upload(fileUrl);
+
+    // Update the mentor's profile with the Cloudinary image URL
+
+    mentor.image = {
+      publicId: result.public_id,
+      url: result.secure_url,
+    };
+    await mentor.save();
+
+    // Remove the uploaded image from the server's upload directory (optional)
+    // fs.unlinkSync(req.file.path);
+
+    return res.status(200).json({ message: 'Mentor profile image updated successfully', mentor });
+  } catch (error) {
+    // console.log(error);
+    return res.status(500).json({ message: `Server error: ${error.message}` });
+  }
+};
 
 // consultter l'historique des sessions de mentorat
 
@@ -92,34 +138,49 @@ export const mentorSessionHistory = async (req, res) => {
 
 export const aprenantProgress = async (req, res) => {
 
-  const { sessionId, note } = req.body
+  const { sessionId, note } = req.body;
 
   try {
-    const session = await Session.findById(sessionId).populate("mentor aprenant")
+
+    const session = await Session.findById(sessionId).populate("mentor aprenant");
     if (!session) {
-      return res.send({ message: "session not found" })
+      return res.status(404).json({ message: "Session not found" });
     }
 
+    // Check if the mentor has already rated this session
 
-    // Calculate the overall progress for the aprenant
+    if (session.hasRated) {
+      return res.status(400).json({ message: "Mentor has already rated this session" });
+    }
 
-    const aprenantSessions = await Session.find({ aprenant: session.aprenant._id });
-    const aprenantProgress = aprenantSessions.map(s => s.note);
-    const aprenantOverallProgress = aprenantProgress.length > 0 ? aprenantProgress.reduce((total, note) => total + note) / aprenantProgress.length : 0;
+    // Ensure the note is within the valid range (0-10)
 
-    // Update the mentor's overall rating
+    if (note < 0 || note > 10) {
+      return res.status(400).json({ message: "Invalid note. Note should be between 0 and 10" });
+    }
 
+    // Update the session's note and set hasRated to true
+
+    session.note = note;
+    session.hasRated = true;
+    await session.save();
+
+    // Calculate the overall progress for the apprentice
+    const aprenantSessions = await Session.find({ aprenant: session.aprenant._id, hasRated: true });
+    const aprenantProgress = aprenantSessions.reduce((total, s) => total + s.note, 0);
+    const aprenantOverallProgress = aprenantProgress / aprenantSessions.length;
+
+    // Update the apprentice's overall progress
+    
     const aprenant = await Aprenant.findById(session.aprenant._id);
-    aprenant.progres = aprenantOverallProgress;
+    aprenant.progress = aprenantOverallProgress;
     await aprenant.save();
 
-    res.status(200).json({ message: "aprenant noted successfully." });
-
-
+    res.status(200).json({ message: "Apprentice noted successfully." });
   } catch (error) {
-    res.send(error)
+    res.status(500).json({ message: "An error occurred while processing the request." });
   }
-}
+};
 
 
 // consulter un aprenant specific : 

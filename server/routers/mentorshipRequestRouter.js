@@ -5,11 +5,11 @@ import {acceptMentorshipRequest,rejectMentorshipRequest,
     getMentorshipRequestsApreant} 
     from "../controllers/mentorshipRequestController.js"
 
-import {mentorAutorisation} from "../middelwares/jwt.js"   
+import {aprenantAutorisation, mentorAutorisation} from "../middelwares/jwt.js"   
 
 export const mentorshipRequestRouter  = Express.Router()
 
 mentorshipRequestRouter.post("/acceptMentorship",mentorAutorisation,acceptMentorshipRequest)
 mentorshipRequestRouter.put("/rejectMentorship",mentorAutorisation,rejectMentorshipRequest)
 mentorshipRequestRouter.get("/getMentorship/:id",mentorAutorisation,getMentorshipRequests)
-mentorshipRequestRouter.get("/getMentorshipAprenant/:id",mentorAutorisation,getMentorshipRequestsApreant)
+mentorshipRequestRouter.get("/getMentorshipAprenant/:id",aprenantAutorisation,getMentorshipRequestsApreant)

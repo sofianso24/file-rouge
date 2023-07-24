@@ -5,4 +5,4 @@ import {mentorAutorisation} from "../middelwares/jwt.js"
 
 export const sessionRouter = Express.Router()
 
-sessionRouter.post("/launchSession",mentorAutorisation,launchMentoringSession)
+sessionRouter.post("/launchSession",launchMentoringSession)

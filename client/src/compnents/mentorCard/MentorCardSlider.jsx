@@ -2,8 +2,32 @@ import React, { useEffect, useState } from 'react'
 import MentorCard from './MentorCard'
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import axios from 'axios';
+
 
 const MentorCardSlider = () => {    
+const [data,setData] = useState()
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8082/aprenants/getAvailableMentors', {
+          withCredentials: true,
+        });
+        setData(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error('An error occurred while fetching mentors:', error);
+        // setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+
+
   return (
     <Carousel
     showArrows={true}
@@ -56,7 +80,17 @@ const MentorCardSlider = () => {
       },
     }}
   >
-  <div className="carousel-slide p-4 ">
+    {
+      data?.filter((item)=> item.rating==5).map((item)=>{
+        return <div className="carousel-slide p-4 ">
+        <MentorCard
+          // image={"https://cdn.mentorcruise.com/cache/ab90d67e8e2acafbf6d671c9633f720b/237d07cb4df01d27/daa2e83358abfc5d34f6278b1d4d641f.jpg"}
+          mentor={item}
+        />
+   </div>
+      })
+    }
+  {/* <div className="carousel-slide p-4 ">
        <MentorCard
          image={"https://cdn.mentorcruise.com/cache/ab90d67e8e2acafbf6d671c9633f720b/237d07cb4df01d27/daa2e83358abfc5d34f6278b1d4d641f.jpg"}
          name={"Phong Huynh"}
@@ -94,7 +128,7 @@ const MentorCardSlider = () => {
          description={"Are you an entrepreneur looking to start or grow your startup? 💬 Do you want to advance your career in product management or make a career transition? 💬 Are you a software developer looking for guidance on how to tackle new challenges? I may be able to help. My …"}
          skills={"Business & Management"}
        />
-  </div>
+  </div> */}
 
 
    </Carousel>

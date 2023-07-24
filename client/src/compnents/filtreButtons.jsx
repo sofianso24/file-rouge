@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from"axios"
+
+import axios from "axios"
 
 
 // const SelectButton = ({ handleSkillChange, selectedSkills }) => {
@@ -128,9 +129,9 @@ import axios from"axios"
 
 const FiltreButtons = ({ setData }) => {
 
-  const skillsTest = ["react", "html", "js"]
-  const domainTest = ["domain1", "domain2", "domain3"]
-  const priceTest = ["100", "price2", "price3"]
+  const skillsTest = ["React", "Node.js", "JavaScript","Python","SQL","Product Management","Machine Learning","Deep Learning","Prototyping"]
+  const domainTest = ["Full Stack Developer", "UX/UI Designer", "Product Manager","Mobile App Developer","Digital Marketing","Data Scientist","Graphic Designer","Cybersecurity"]
+  const priceTest = ["80", "90", "100","110","120","130","140","150","160","170","180","190","200","210","220","230"]
 
   const [dropDownState, setDropDownState] = useState(false)
   const [skillsFilter, setSkillsFilter] = useState([])
@@ -169,22 +170,23 @@ const FiltreButtons = ({ setData }) => {
     }
   })
 
-  useEffect(()=>{
+  useEffect(() => {
     const filterMentors = async () => {
       try {
-        console.log({skillsFilter, domainFilter});
-       const response = await axios.get(`http://localhost:8082/aprenants/filtreMentors?skills=${skillsFilter}&domain=${domainFilter}&price=${priceFilter}`, { withCredentials:true
-       })
-       setData(response.data.mentors)
-        console.log({response})
+       
+        const response = await axios.get(`http://localhost:8082/aprenants/filtreMentors?skills=${skillsFilter}&domain=${domainFilter}&price=${priceFilter}`, {
+          withCredentials: true
+        })
+        setData(response.data.mentors)
+        
       } catch (error) {
-        console.log({error});
+        console.log({ error });
       }
 
     }
 
     filterMentors()
-  },[skillsFilter,domainFilter, priceFilter])
+  }, [skillsFilter, domainFilter, priceFilter])
 
 
 
@@ -214,7 +216,7 @@ const FiltreButtons = ({ setData }) => {
   }
 
 
- 
+
   const handleCheckSkill = (e, i) => {
     e.stopPropagation();
     const isChecked = checkRefs.current[i].checked;
@@ -259,7 +261,7 @@ const FiltreButtons = ({ setData }) => {
     console.log({ skillsFilter });
     console.log({ priceFilter });
     console.log({ domainFilter });
-  }, [skillsFilter,priceFilter,domainFilter])
+  }, [skillsFilter, priceFilter, domainFilter])
 
 
 
@@ -271,12 +273,14 @@ const FiltreButtons = ({ setData }) => {
             <button onClick={test} id="dropdownDefault" data-dropdown-toggle="dropdown "
               className="mb-7   shadow-green-100 text-black bg-transparent  font-medium rounded-full text-sm px-4 py-2.5 text-center inline-flex items-center border  shadow-lg outline-none appearance-none focus:border-indigo-600 "
               type="button">
-               Skills
+              Skills
               <svg className="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
               </svg>
             </button>
+
+
 
 
             <div ref={refTest} id="dropdown" className="z-10 hidden w-56 p-3 bg-white rounded-lg shadow dark:bg-gray-700 ">
@@ -303,6 +307,7 @@ const FiltreButtons = ({ setData }) => {
 
               </ul>
             </div>
+
           </div>
 
 
@@ -311,7 +316,7 @@ const FiltreButtons = ({ setData }) => {
             <button onClick={test2} id="dropdownDefault" data-dropdown-toggle="dropdown"
               className="mb-7 shadow-lg shadow-green-100 text-black bg-transparent font-medium rounded-full text-sm px-4 py-2.5 text-center inline-flex items-center border  outline-none appearance-none focus:border-indigo-600  "
               type="button">
-               Price
+              Price
               <svg className="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -349,7 +354,7 @@ const FiltreButtons = ({ setData }) => {
             <button onClick={test3} id="dropdownDefault" data-dropdown-toggle="dropdown"
               className="mb-7 shadow-lg shadow-green-100 text-black bg-transparent  font-medium rounded-full text-sm px-4 py-2.5 text-center inline-flex items-center border  outline-none appearance-none focus:border-indigo-600   "
               type="button">
-               Domain
+              Domain
               <svg className="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>

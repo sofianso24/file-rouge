@@ -9,10 +9,10 @@ const aprenantSchema = new Schema(
     //   type: Schema.Types.ObjectId,
     //   ref: "user",
     // },
-    domainInteret: {
-        type: [String],
+    domainInteret: [{
+        type: String,
         // required: true,
-    },
+    }],
     studyLevel :{
         type: String,
         // required : true,

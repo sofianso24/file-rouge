@@ -1,25 +1,48 @@
 import Table from "../../compnents/Table"
 import React, { useEffect } from 'react'
 import { useState } from "react";
-import { MdEdit } from 'react-icons/md';
+import { MdEdit, MdCloudUpload } from 'react-icons/md';
 import Form from "../../compnents/Form";
 import axios from 'axios'
 import { useParams } from "react-router-dom";
 
 const ProfilMentor = () => {
   let { mentorId } = useParams()
-
+  const [profileImageURL, setProfileImageURL] = useState(null);
 
   const [isEditing, setIsEditing] = useState(false)
   // const [isLoading, setIsloading] = useState(false);
 
   const [data, setData] = useState(null);
   const [refetch, setRefetch] = useState(false)
-  // const [selectedImage, setSelectedImage] = useState(null);
 
-  // const handleImageChange = (event) => {
-  //   setSelectedImage(event.target.files[0]);
-  // };
+
+  const handleImageChange = async (event) => {
+    event.preventDefault()
+    const formData = new FormData();
+    formData.append('image', event.target.files[0]);
+
+    try {
+      const response = await axios.put(`http://localhost:8082/mentors/modifierProfileImage/${mentorId}`, formData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }).then(response => {
+        setData(response?.data?.mentor)
+      })
+      
+      // Update the profile image URL in the NavBar component
+      setProfileImageURL(response?.data?.mentor?.image?.url);
+
+      // Handle the response from the server, if needed
+      console.log('Image uploaded successfully:', response?.data);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+  };
+
+
 
 
 
@@ -41,8 +64,7 @@ const ProfilMentor = () => {
         });
     }
     fetchdata()
-  }, [refetch]);
-
+  }, [refetch, mentorId]);
 
   return (
     <>
@@ -69,7 +91,7 @@ const ProfilMentor = () => {
                     <svg className="flex-shrink-0 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                       <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd"></path>
                     </svg>
-                    <a href="/mentor/browse/" className="ml-4 text-sm font-medium text-white hover:text-gray-100">Find a Mentor</a>
+                    <a href="http://localhost:5173/mentors" className="ml-4 text-sm font-medium text-white hover:text-gray-100">Find a Mentor</a>
                   </div>
                 </div>
                 <div>
@@ -78,35 +100,35 @@ const ProfilMentor = () => {
                     <svg className="flex-shrink-0 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                       <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd"></path>
                     </svg>
-                    <a href="/mentor/sabamokhlesi/" className="ml-4 text-sm font-medium text-white" aria-current="page"></a>
+                    <a href="" className="ml-4 text-sm font-medium text-white" aria-current="page"> {data?.firstName}  {data?.lastName}</a>
                   </div>
                 </div>
               </div>
             </nav>
+            <div>
+              <input type="file" accept="image/*" onChange={handleImageChange} />
+            </div>
             <div className="-mt-12 w-full lg:w-1/2 xl:w-2/3 px-4 pb-8 align-bottom flex items-end">
               <div className="inline-block w-48 h-48 relative top-20 rounded-full overflow-hidden bg-white p-1 flex-none">
-                <div className="inline-block w-48 h-48 relative top-20 rounded-full overflow-hidden bg-white p-1 flex-none">
-                  {data?.image}
+
+                <div className="inline-block image-container w-48 h-48 relative top-20 rounded-full overflow-hidden bg-white p-1 flex-none ">
+                  <div>
+                    <img
+                      className="w-full h-full rounded-full"
+                      src={data?.image?.url}
+                      alt="Mentor Photo"
+                    />
+                  </div>
+
                 </div>
-                {/* {selectedImage ? (
-          <img
-            className="w-full h-full rounded-full"
-            src={URL.createObjectURL(selectedImage)}
-            alt="Mentor Photo"
-          />
-        ) : (
-          <div>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-            <span>Upload Photo</span>
-          </div>
-        )} */}
+
               </div>
               <div className="hidden sm:inline-block ml-6 grow">
                 <div className="flex items-end gap-x-4">
                   <div>
                     <div className="whitespace-nowrap text-sm text-slate-800 font-medium bg-teal-50 hover:bg-teal-100 duration-150 transition-all rounded-full px-4 py-2 cursor-default">
-                      <svg className="w-5 h-5 text-teal-700 align-middle mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd"></path></svg>
-                      Quick Responder
+
+                      mentorship request
                     </div>
                   </div>
                 </div>
@@ -128,8 +150,8 @@ const ProfilMentor = () => {
                   <div className="flex items-end gap-x-4">
                     <div>
                       <div className="whitespace-nowrap text-sm text-slate-800 font-medium bg-teal-50 hover:bg-teal-100 duration-150 transition-all rounded-full px-4 py-2 cursor-default">
-                        <svg className="w-5 h-5 text-teal-700 align-middle mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd"></path></svg>
-                        Quick Responder
+
+                        mentorship request
                       </div>
                     </div>
                   </div>
@@ -142,7 +164,7 @@ const ProfilMentor = () => {
                     {data?.domain}
                   </a>
                   <span>@</span>
-                  <a className="text-slate-900" href="/company/microsoft/">{data?.company}</a>
+                  <a className="text-slate-900" href="/company/microsoft/"> {data?.company}</a>
                 </span><br />
                 <span className="inline-block font-medium text-teal-700 text-md leading-normal mt-[2px]">
                   {data?.experience}
@@ -162,20 +184,20 @@ const ProfilMentor = () => {
                       <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
                       <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
                     </svg>
-                    Usually responds
-                    <span className="underline tooltip is-tooltip-top is-tooltip-multiline " data-tooltip="This is how quickly Saba usually responds to applications.">
+                    Usually responds{" "}
+                    <span className="underline tooltip is-tooltip-top is-tooltip-multiline text-teal-700 " data-tooltip="This is how quickly Saba usually responds to applications.">
                       {data?.responseTime}
                     </span>
                   </span>
                 </div>
-                <div className="mt-5 flex gap-x-4">
+                {/* <div className="mt-5 flex gap-x-4">
                   <div className="white-btn border small px-[15px] py-[7px] text-sm">
                     <svg className="w-5 h-5 text-slate-400 align-top mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                       <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"></path>
                     </svg>
                     Save
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="hidden sm:block">
                 <div className="mb-5">
@@ -209,7 +231,7 @@ const ProfilMentor = () => {
           </div>
         </div>
         <hr className="my-12" />
-      </div>
+      </div >
 
       <div className='ml-20'>
         <h2 className="text-slate-900 font-bold text-2xl mb-1" >

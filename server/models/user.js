@@ -9,17 +9,20 @@ const userSchema = new Schema(
       enum: ["admin", "aprenant", "mentor"],
       required: true,
     },
+    image : {
+      type: String
+    },
     isActive:{
       type: Boolean,
       default : false
     },
     firstName : {
       type: String,
-      required: true,
+      // required: true,
     },
     lastName: {
       type: String,
-      required: true,
+      // required: true,
     },
     mail: {
       type: String,

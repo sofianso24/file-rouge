@@ -3,25 +3,20 @@ import axios from "axios"
 import { useState } from 'react';
 import { useParams } from "react-router-dom"
 
-const Form = ({ data, onCancel, refetch }) => {
+const FormAprenant = ({ data, onCancel, refetch }) => {
 
-    let { mentorId } = useParams()
+    let { aprenantId } = useParams()
 
     const servicesItems = ['Tasks', 'Chat', 'Calls'];
 
     const [firstName, setFirstName] = useState(data?.firstName);
     const [lastName, setLastName] = useState(data?.lastName);
-    const [domain, setDomain] = useState(data?.domain);
-    const [company, setCompany] = useState(data?.company);
-    const [experience, setExperience] = useState(data?.experience);
+    const [domainInteret, setDomainInteret] = useState(data?.domainInteret);
+    const [goal, setGoal] = useState(data?.goal);
     const [about, setAbout] = useState(data?.about);
-    const [skills, setSkills] = useState(data?.skills);
-    const [skillValue, setSkillValue] = useState("");
-    const [localisation, setLocalisation] = useState(data?.localisation);
     const [disponibility, setDisponibility] = useState(data?.disponibility);
-    const [responseTime, setResponseTime] = useState(data?.responseTime);
-    const [price, setPrice] = useState(data?.price);
-
+    // const [skills, setSkills] = useState(data?.skills);
+    const [domainValue, setDomainValue] = useState("");
 
 
     const handleFormSubmit = async (event) => {
@@ -30,22 +25,17 @@ const Form = ({ data, onCancel, refetch }) => {
         const formData = {
             firstName,
             lastName,
-            domain,
-            company,
-            experience,
-            about,
-            skills,
-            localisation,
+            domainInteret,
+            goal,
             disponibility,
-            responseTime,
-            price,
-          
+            about
+           
         };
 
 
 
         // Make the API call with the formData object
-        await axios.put(`http://localhost:8082/mentors/modifierProfile/${mentorId}`, formData,{
+        await axios.put(`localhost:8082/aprenants/updateApprenantProfile/${aprenantId}`, formData,{
             withCredentials: true
     
             })
@@ -59,17 +49,48 @@ const Form = ({ data, onCancel, refetch }) => {
             });
     };
 
+    // const handleFormSubmit = async (event) => {
+    //     event.preventDefault();
+    //     const formData = new FormData();
+    //     formData.append('lastName', lastName);
+    //     formData.append('firstName', firstName);
+    //     formData.append('company', company);
+    //     formData.append('domain', domain);
+    //     formData.append('experience', experience);
+    //     formData.append('about', about);
+    //     formData.append('skills', JSON.stringify(skills)); // Skills might be an array, so stringify it
+    //     formData.append('localisation', localisation);
+    //     formData.append('disponibility', disponibility);
+    //     formData.append('responseTime', responseTime);
+    //     formData.append('price', price);
+    //     formData.append('image', image); // Image file
 
-    const handdleSkillValue = (e) => {
+    //     await axios.put(`http://localhost:8082/mentors/modifierProfile/${aprenantId}`, formData, {
+    //         withCredentials: true,
+    //         headers: {
+    //             'Content-Type': 'multipart/form-data', // Set the content type as multipart/form-data for image upload
+    //         },
+    //     })
+    //         .then(response => {
+    //             onCancel(false);
+    //             refetch(prev => !prev);
+    //             console.log('Profile updated successfully!');
+    //         })
+    //         .catch(error => {
+    //             console.error('An error occurred while updating the profile:', error);
+    //         });
+    // };
+
+    const handdleDomainValue = (e) => {
         e.preventDefault()
-        setSkillValue(e.target.value)
+        setDomainValue(e.target.value)
     }
 
-    const handleAddSills = (e) => {
+    const handleAddDomains = (e) => {
         if (e.key === "Enter") {
             e.preventDefault()
-            setSkillValue("")
-            setSkills([...skills, skillValue])
+            setDomainValue("")
+            setDomainInteret([...domainInteret, domainValue])
             return
         }
         return
@@ -118,13 +139,13 @@ const Form = ({ data, onCancel, refetch }) => {
                     </div>
                 </div>
                 <div className="grid md:grid-cols-2 md:gap-6">
-                    <div className="relative z-0 w-full mb-6 group">
+                    {/* <div className="relative z-0 w-full mb-6 group">
                         <input
                             type="text"
                             name="floating_phone"
                             id="floating_phone"
-                            value={domain}
-                            onChange={(e) => setDomain(e.target.value)}
+                            value={domainInteret}
+                            onChange={(e) => setDomainInteret(e.target.value)}
                             className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer"
                             placeholder=" "
 
@@ -133,10 +154,10 @@ const Form = ({ data, onCancel, refetch }) => {
                             htmlFor="floating_phone"
                             className="peer-focus:font-medium absolute text-sm text-slate-300 dark:text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-slate-300 peer-focus:dark:text-slate-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
-                            Domain
+                            Domain interet
                         </label>
-                    </div>
-                    <div className="relative z-0 w-full mb-6 group">
+                    </div> */}
+                    {/* <div className="relative z-0 w-full mb-6 group">
                         <input
                             type="text"
                             name="floating_company"
@@ -153,7 +174,7 @@ const Form = ({ data, onCancel, refetch }) => {
                         >
                             Company
                         </label>
-                    </div>
+                    </div> */}
 
                 </div>
                 <div className="grid md:grid-cols-2 md:gap-6">
@@ -180,9 +201,9 @@ const Form = ({ data, onCancel, refetch }) => {
                             type="text"
                             name="floating_company"
                             id="floating_company"
-                            value={skillValue}
-                            onChange={handdleSkillValue}
-                            onKeyDown={handleAddSills}
+                            value={domainValue}
+                            onChange={handdleDomainValue}
+                            onKeyDown={handleAddDomains}
                             className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer"
                             placeholder=" "
                         />
@@ -190,17 +211,17 @@ const Form = ({ data, onCancel, refetch }) => {
                             htmlFor="floating_company"
                             className="peer-focus:font-medium absolute text-sm text-slate-300 dark:text-slate-300 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-slate-300 peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >
-                            Skills
+                            domain interet
                         </label>
                         <div>
-                            {skills?.map(skill => {
-                                return <span className='inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2' >{skill}</span>
+                            {domainInteret?.map(domainInteret => {
+                                return <span className='inline-block tag-lg whitespace-nowrap focus:outline-none text-white bg-[#aad4c1] hover:bg-[#bad5ad] focus:ring-4 focus:ring-green-300 font-medium rounded-full px-5 py-1.5 mr-2 mb-2' >{domainInteret}</span>
                             })}
                         </div>
                     </div>
                 </div>
                 <div className="grid md:grid-cols-2 md:gap-6">
-                    <div className="relative z-0 w-full mb-6 group">
+                    {/* <div className="relative z-0 w-full mb-6 group">
                         <input
                             type="text"
                             name="floating_phone"
@@ -217,7 +238,7 @@ const Form = ({ data, onCancel, refetch }) => {
                         >
                             Localisation
                         </label>
-                    </div>
+                    </div> */}
                     <div className="relative z-0 w-full mb-6 group">
                         <input
                             type="text"
@@ -237,7 +258,7 @@ const Form = ({ data, onCancel, refetch }) => {
                         </label>
                     </div>
                 </div>
-                <div className="grid md:grid-cols-2 md:gap-6">
+                {/* <div className="grid md:grid-cols-2 md:gap-6">
                     <div className="relative z-0 w-full mb-6 group">
                         <input
                             type="text"
@@ -274,9 +295,9 @@ const Form = ({ data, onCancel, refetch }) => {
                             Price
                         </label>
                     </div>
-                </div>
+                </div> */}
                 <div className="grid md:grid-cols-2 md:gap-6">
-                    <div className="relative z-0 w-full mb-6 group">
+                    {/* <div className="relative z-0 w-full mb-6 group">
                         <input
                             type="text"
                             name="floating_company"
@@ -294,9 +315,25 @@ const Form = ({ data, onCancel, refetch }) => {
                             Experience
                         </label>
 
-                    </div>
-                   
-                    {/* <label className="font-medium text-white">Services</label>
+                    </div> */}
+                    {/* <input
+                        type="file"
+                        name="floating_company"
+                        id="floating_company"
+                        value={image}
+                        onChange={(e) => setImage(e.target.value)}
+                        className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer "
+                        placeholder="profile image"
+
+                    />
+                    <label
+                        htmlFor="floating_company"
+                        className="peer-focus:font-medium absolute text-sm text-slate-300 dark:text-slate-300 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-slate-300 peer-focus:dark:text-slate-300 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    >
+                        Profile image
+                    </label> */}
+
+                    <label className="font-medium text-white">Services</label>
                     <ul className="grid gap-y-2 gap-x-6 flex-wrap grid-cols-2 mt-3 text-white">
                         {servicesItems.map((item, idx) => (
                             <li key={idx} className="flex gap-x-3 text-sm">
@@ -315,7 +352,7 @@ const Form = ({ data, onCancel, refetch }) => {
                                 <label htmlFor={`service-${idx}`} className="cursor-pointer">{item}</label>
                             </li>
                         ))}
-                    </ul> */}
+                    </ul>
                 </div>
                 <button
                     type="submit"
@@ -335,4 +372,4 @@ const Form = ({ data, onCancel, refetch }) => {
     );
 };
 
-export default Form;
+export default FormAprenant;

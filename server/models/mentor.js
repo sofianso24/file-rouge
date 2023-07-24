@@ -54,12 +54,15 @@ const mentorSchema = new Schema(
       responseTime:{
            type:String 
       },
-      image: {
-        type: String 
-      },
+      
       price:{
         type : String
       },
+      image:{
+        publicId : {type : String, default: ""},
+        url : {type : String, default: ""}
+      },
+
       sessions: [
         {
           type: Schema.Types.ObjectId,

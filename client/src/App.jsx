@@ -52,7 +52,7 @@ function App() {
               <div className="flex-grow flex flex-col items-center justify-center">
                 <ServiceContainer />
               </div>
-              <section className="flex-grow">
+              <section className="flex-grow mt-16">
                 <HeaderText text={"About us"} />
                 <About />
               </section>
@@ -60,10 +60,10 @@ function App() {
                 <HeaderText text={"Mentees testimonials"} />
                 <TestimonialCardSlider />
               </section>
-              {/* <section className="flex-grow bg-[#f9fff5]">
+              <section className="flex-grow bg-[#f9fff5]">
                 <HeaderText text={"Best mentors "} />
                 <MentorCardSlider />
-              </section> */}
+              </section>
               <Footer />
             </>
           } />
@@ -77,16 +77,17 @@ function App() {
               <Messages />
             </>
           } />
-          <Route path="/profilAprenant" element={
+          <Route path="/profilAprenant/:aprenantId" element={
           <>
-            <NavBar />
+            <NavBar  />
             <ProfilAprenant />
             <Footer />
           </>
         } />
         <Route path="/profilMentor/:mentorId" element={
           <>
-            <NavBar />
+            <NavBar   />     
+            
             <ProfilMentor />
             <Footer />
           </>

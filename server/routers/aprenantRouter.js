@@ -11,7 +11,7 @@ export const aprenantRouter = Express.Router()
 
 
 aprenantRouter.get("/viewAprenantProfile/:id",aprenantAutorisation,viewAprenantProfile)
-aprenantRouter.patch("/updateApprenantProfile/:id",aprenantAutorisation,updateApprenantProfile)
+aprenantRouter.put("/updateApprenantProfile/:id",aprenantAutorisation,updateApprenantProfile)
 aprenantRouter.get("/aprenantSessionHistory/:id",aprenantAutorisation,aprenantSessionHistory)
 aprenantRouter.get("/getAvailableMentors",getAvailableMentors)
 aprenantRouter.post("/requestMentoring",aprenantAutorisation,requestMentoring)

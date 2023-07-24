@@ -4,7 +4,10 @@ import mongoose from "mongoose";
 import WebSocket from "ws";
 import cookieParser from "cookie-parser"
 import cors from "cors"
-import multer from "multer";
+import {v2 as cloudinary} from 'cloudinary';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
 
 import { adminRouter } from "./routers/adminRouter.js"
 import { mentorRouter } from "./routers/mentorRouter.js"
@@ -33,21 +36,29 @@ mongoose
     console.log(err);
   });
 
+// cloudinary configuration 
+
+cloudinary.config({
+  cloud_name: 'devq06psf',
+  api_key: '314892682655296',
+  api_secret: 'cn077LJvBNiAM4OXA8D_CZl5VyQ',
+});
+
 
 // Multer configuration
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/"); // Specify the destination directory where uploaded files will be stored
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname));
-  },
-});
-
- const upload = multer({ storage: storage });
-
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads/');
+//   },
+//   filename: function (req, file, cb) {
+//     console.log(file);
+//     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+//     cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+//   },
+// });
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage });
 
 // web socket
 
@@ -76,8 +87,9 @@ app.use(cors({
   credentials: true
 }))
 
-// app.use('/upload', express.static('upload'));
+// // app.use('/upload', express.static('upload'));
 app.use(upload.single("image"))
+// app.use(upload.single("image"));
 
 app.use("/admins", adminRouter)
 app.use("/mentors", mentorRouter);

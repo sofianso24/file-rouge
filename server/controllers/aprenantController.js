@@ -2,6 +2,7 @@ import { Aprenant } from "../models/aprenant.js";
 import { Mentor } from "../models/mentor.js";
 import { MentorshipRequest } from "../models/mentorshipRequest.js";
 import { Session } from "../models/session.js";
+import { User } from "../models/user.js";
 
 // consulter son profil
 
@@ -10,7 +11,7 @@ export const viewAprenantProfile = async (req, res) => {
   const apprenantId = req.params.id;
 
   try {
-    const aprenant = await Aprenant.findById(apprenantId).populate('userInherit');
+    const aprenant = await User.findById(apprenantId).populate('userRole');
     if (!aprenant) {
       return res.status(404).json({ message: 'apprenant not found' });
     }
@@ -25,7 +26,7 @@ export const viewAprenantProfile = async (req, res) => {
 
 export const updateApprenantProfile = async (req, res) => {
 
-  const { domaineInteret, niveauEtude, description, but } = req.body;
+  const { domainInteret, studyLevel,availability, about, goal } = req.body;
   const aprenantId = req.params.id;
 
   try {
@@ -35,10 +36,11 @@ export const updateApprenantProfile = async (req, res) => {
       return res.status(404).json({ message: "aprenant not found" });
     }
 
-    aprenant.domaineInteret = domaineInteret;
-    aprenant.niveauEtude = niveauEtude;
-    aprenant.description = description;
-    aprenant.but = but;
+    aprenant.domainInteret = domainInteret;
+    aprenant.studyLevel = studyLevel;
+    aprenant.availability = availability;
+    aprenant.about = about;
+    aprenant.goal = goal;
 
     await aprenant.save();
 

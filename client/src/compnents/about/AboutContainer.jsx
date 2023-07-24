@@ -38,7 +38,7 @@ const AboutContainer = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <AboutItems content="Skilled Instructors" />
               <AboutItems content="Online Classes" />
-              <AboutItems content="International Certificate" />
+              <AboutItems content="Guiding Your Path to Success" />
              
             </div>
             <Link

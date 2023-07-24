@@ -1,7 +1,7 @@
 import React from 'react'
 
-const MentorCard = ({mentor}) => {
-  
+const MentorCard = ({ mentor }) => {
+
   return (
     <div className="relative box px-7 py-8 transition-all duration-150 mb-12 max-w-screen-lg mx-auto  border-2 border-solid border-black border-opacity-5 rounded-3xl bg-[#fff]  " style={{ marginBottom: '4rem' }}>
       <div className="absolute top-0 -m-4 right-12 block border-2 border-solid border-gray-200 rounded-2xl bg-white has-text-blue font-bold px-2 py-1 text-sm ">
@@ -11,11 +11,11 @@ const MentorCard = ({mentor}) => {
         <div className="col-span-7 md:col-span-5 relative ">
           <a href={`/profilMentor/${mentor._id}`} target="_blank" className="relative w-full h-72 bg-center bg-cover inline-block rounded-lg overflow-hidden md:mb-20" style={{ backgroundImage: `url(${mentor.image})` }}>
             <div className="absolute block w-full h-full inset-x-0 bottom-0" style={{ backgroundImage: "linear-gradient(to top, rgba(48, 65, 96, 1.0), rgba(48, 65, 96, 0.2) 60%, rgba(48, 65, 96, 0.0))" }}>
-              <div className="md:hidden absolute bottom-4 left-4" title="Ahmed Sadman Muhib">
+              <div className="md:hidden absolute bottom-4 left-4" >
                 <h3 className="title text-2xl text-white font-bold mb-0">
                   {mentor.firstName} {mentor.lastName}
                 </h3>
-                <span className="text-white text-base mt-2">{mentor.domain}
+                <span className="text-white text-base mt-2">{mentor.domain} {" "} 
                   at <span className="font-bold">{mentor.company}</span>
                 </span>
               </div>
@@ -24,14 +24,14 @@ const MentorCard = ({mentor}) => {
                   <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-amber-400 mr-0.5 align-sub" aria-hidden="true">
                     <path clipRule="evenodd" fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"></path>
                   </svg>
-                  <span className="font-bold">{mentor.rating}</span>&nbsp;(27)
+                  <span className="font-bold">{mentor.rating}</span>&nbsp;
                 </div>
               </div>
             </div>
 
           </a>
           <div className="hidden md:block has-text-blue text-3xl lg:text-4xl font-black leading-none absolute bottom-0">
-            <span className="price-element minimize">{mentor.price}</span>
+            <span className="price-element minimize">{mentor.price}$</span>
             <span className="inline font-bold text-lg">/&nbsp;month</span>
           </div>
         </div>
@@ -39,17 +39,17 @@ const MentorCard = ({mentor}) => {
           <div className="relative h-full pb-10 md:pb-16">
             <div className="grid-cols-3 hidden md:grid">
               <div className="col-span-2">
-                <a href="/mentor/ahmedsadmanmuhib/" target="_blank" title="Ahmed Sadman Muhib">
-                  <h3 className="title text-2xl has-text-blue font-bold">
-                    {mentor.firstName} {mentor.lastName}
-                  </h3>
-                </a>
+
+                <h3 className="title text-2xl has-text-blue font-bold">
+                  {mentor.firstName} {mentor.lastName}
+                </h3>
+
               </div>
               <div className="sm:text-right my-4 sm:my-0">
                 <a href="/top/" target="_blank" className="whitespace-nowrap py-2 px-4 rounded-full text-sm cursor-pointer font-bold bg-green text-white hover:text-white"><i className="fa fa-star mr-1"></i>Top mentor</a>
               </div>
             </div>
-            <span className="has-text-blue text-base mt-2 hidden md:inline-block">{mentor.domain}
+            <span className="has-text-blue text-base mt-2 hidden md:inline-block">{mentor.domain}{" "}
               at <span className="font-bold">{mentor.company}</span><br />
             </span>
             <span className="font-medium text-teal-700 text-base mt-[2px] hidden md:inline-block">
@@ -120,13 +120,13 @@ const MentorCard = ({mentor}) => {
             </div>
             <hr className="md:hidden my-4 bg-red" />
             <div className="md:hidden has-text-blue text-3xl lg:text-4xl font-black leading-none">
-              <span className="price-element minimize">{mentor.price}</span>
+              <span className="price-element minimize">{mentor.price}$</span>
               <span className="inline font-bold text-lg">/&nbsp;month</span>
             </div>
-            
+
             <hr className="md:hidden mt-4" />
             <div className="md:grid grid-cols-2 mt-8 space-x-4 absolute bottom-0 w-full">
-              <div ><a target="_blank" href={`/profilMentor/${mentor._id}`}  className="text-white  bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">View
+              <div ><a target="_blank" href={`/profilMentor/${mentor._id}`} className="text-white  bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">View
                 Profile</a>
               </div>
             </div>

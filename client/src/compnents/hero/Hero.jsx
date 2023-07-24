@@ -27,6 +27,16 @@ const Hero = () => {
                                     1000,
                                     'web design',
                                     1000,
+                                    'Product manager',
+                                    1000,
+                                    'Digital marketing',
+                                    1000,
+                                    'Data science',
+                                    1000,
+                                    'graphic design',
+                                    1000,
+                                    'Cybersecurity',
+                                    1000,
 
                                 ]}
                                     speed={60}

@@ -7,6 +7,7 @@ import { Session } from "../models/session.js";
 
 
 export const launchMentoringSession = async (req, res) => {
+  
   const { mentorId, aprenantId, startTime, endTime, link,date } = req.body;
 
   try {
@@ -20,7 +21,7 @@ export const launchMentoringSession = async (req, res) => {
 // check if the mentor has accepted the mentorship request from the aprentice
 
     if(aprenant.mentorshipsRequests.status !== "accepted" ){
-          res.send({message : "l'aprenant n'est pas autorisè a faire le session de mentorat"})   
+          res.json({message : "l'aprenant n'est pas autorisè a faire le session de mentorat"})   
     }
 
     // Create the new session

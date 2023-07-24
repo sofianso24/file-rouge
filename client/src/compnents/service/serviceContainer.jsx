@@ -64,21 +64,21 @@ const ServiceContainer = (props) => {
           <ServiceItem
             service="Find your mentor"
             text="Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam"
-            icon="fa-graduation-cap"
+            icon=" fa-hands-helping"
           />
         </div>
         <div className="carousel-slide text-white">
           <ServiceItem
             service="Apply for mentorship"
             text="Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam"
-            icon="fa-globe"
+            icon="fa-comments"
           />
         </div>
         <div className="carousel-slide text-white">
           <ServiceItem
             service="Level up your skills"
             text="Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam"
-            icon="fa-home"
+            icon="fa-chart-line"
           />
         </div>
       </Carousel>

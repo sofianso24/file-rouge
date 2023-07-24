@@ -9,6 +9,7 @@ import Search from '../../compnents/search/Search';
 import FiltreButtons from '../../compnents/filtreButtons';
 import Pagination from '../../compnents/Pagination';
 import MentorCard from '../../compnents/mentorCard/MentorCard';
+import Loader from '../../compnents/loader/Loader';
 
 
 const Mentors = () => {
@@ -17,7 +18,7 @@ const Mentors = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredMentors, setFilteredMentors] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedSkills, setSelectedSkills] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   
  
 
@@ -32,9 +33,10 @@ const Mentors = () => {
           withCredentials: true,
         });
         setData(response.data);
-        console.log(response.data); 
+        setIsLoading(false);
       } catch (error) {
         console.error('An error occurred while fetching mentors:', error);
+        setIsLoading(false);
       }
     };
 
@@ -53,42 +55,6 @@ const Mentors = () => {
     }
   }, [searchQuery, data]);
 
-
-  // useEffect(() => {
-    
-  //   const fetchMentorsBySkill = async () => {
-  //     if (selectedSkills) {
-  //       const mentors = await filterMentorsBySkill(selectedSkill);
-  //       setFilteredMentors(mentors);
-  //       setCurrentPage(1); // Reset the current page when skill selection changes
-  //     } else {
-  //       setFilteredMentors([]);
-  //     }
-  //   };
-  
-  //   fetchMentorsBySkill();
-  // }, [selectedSkills]);
-
-
-  // useEffect(() => {
-
-  //   const fetchMentorsBySkills = async () => {
-
-  //     if (selectedSkills.length > 0) {
-  //       try {
-  //         const response = await axios.get(`http://localhost:8082/aprenants/filtreMentorsByskill?skills=${JSON.stringify(selectedSkills)}`);
-  //         setFilteredMentors(response.data.mentors);
-  //         setCurrentPage(1); // Reset the current page when skill selection changes
-  //       } catch (error) {
-  //         console.error('An error occurred while fetching mentors by skills:', error);
-  //       }
-  //     } else {
-  //       setFilteredMentors([]);
-  //     }
-  //   };
-
-  //   fetchMentorsBySkills();
-  // }, [selectedSkills]);
 
 
   const filterMentors = (mentors) => {
@@ -133,42 +99,29 @@ const Mentors = () => {
     setSearchQuery(query);
   };
 
-  // const handleCheckboxChange = (e) => {
-  //   const skill = e.target.value;
-  //   const isChecked = e.target.checked;
-
-  //   if (isChecked) {
-  //     setSelectedSkills((prevSkills) => [...prevSkills, skill]);
-  //   } else {
-  //     setSelectedSkills((prevSkills) => prevSkills.filter((s) => s !== skill));
-  //   }
-  // };
-
-  // const handleSkillChange = (e) => {
-  //   setSelectedSkill(e.target.value);
-  // };
-
-  
 
 
   return (
     <>
-      <NavBar />
+        <NavBar />
       <Search onSearch={handleSearch} />
+      <FiltreButtons setData={setData} />
 
-       <FiltreButtons
-       setData={setData}
-       
-       />     
-
-      {displayedMentors.map((mentor) => (
-        <MentorCard key={mentor._id} mentor={mentor} />
-      ))}
-      <Pagination
-        currentPage={currentPage}
-        totalPages={Math.ceil((searchQuery ? filteredMentors.length : data.length) / mentorsPerPage)}
-        onPageChange={handlePageChange}
-      />
+      {/* Conditional rendering based on isLoading */}
+      {isLoading ? (
+        <Loader /> // Show the Loader component while data is being fetched
+      ) : (
+        <>
+          {displayedMentors.map((mentor) => (
+            <MentorCard key={mentor._id} mentor={mentor} />
+          ))}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil((searchQuery ? filteredMentors.length : data.length) / mentorsPerPage)}
+            onPageChange={handlePageChange}
+          />
+        </>
+      )}
       <Footer />
     </>
   );
