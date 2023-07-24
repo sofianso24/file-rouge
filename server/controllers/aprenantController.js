@@ -1,3 +1,8 @@
+import cloudinary from "cloudinary";
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+
 import { Aprenant } from "../models/aprenant.js";
 import { Mentor } from "../models/mentor.js";
 import { MentorshipRequest } from "../models/mentorshipRequest.js";
@@ -26,7 +31,8 @@ export const viewAprenantProfile = async (req, res) => {
 
 export const updateApprenantProfile = async (req, res) => {
 
-  const { domainInteret, studyLevel,availability, about, goal } = req.body;
+  const { domainInteret, studyLevel,availability, about, goal, firstName, lastName } = req.body;
+  console.log(req.body);
   const aprenantId = req.params.id;
 
   try {
@@ -36,6 +42,8 @@ export const updateApprenantProfile = async (req, res) => {
       return res.status(404).json({ message: "aprenant not found" });
     }
 
+    aprenant.firstName = firstName;
+    aprenant.lastName = lastName;
     aprenant.domainInteret = domainInteret;
     aprenant.studyLevel = studyLevel;
     aprenant.availability = availability;
@@ -48,6 +56,57 @@ export const updateApprenantProfile = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Something went wrong. Please try again later" });
+  }
+};
+
+
+// modifier son phyp de profil
+
+export const updateAprenantImage = async (req, res) => {
+
+  try {
+
+    const aprenantId = req.params.id;
+    const aprenant = await Aprenant.findById(aprenantId);
+
+    if (!aprenant) {
+      return res.status(404).json({ message: 'Aprenant not found' });
+    }
+
+    // Check if there is an image in the request
+
+    if (!req.file) {
+      return res.status(400).json({ message: 'Image not provided' });
+    }
+
+    //verify image url existence 
+
+    if (aprenant?.image?.url !== "") {
+      await cloudinary.uploader.destroy(aprenant?.image?.publicId)
+    }
+
+    // Upload image to Cloudinary
+
+    const file = req.file
+    const fileTobase64 = Buffer.from(file.buffer).toString("base64")
+    const fileUrl = `data:${file.mimetype};base64,${fileTobase64}`
+    const result = await cloudinary.uploader.upload(fileUrl);
+
+    // Update the aprenant's profile with the Cloudinary image URL
+
+    aprenant.image = {
+      publicId: result.public_id,
+      url: result.secure_url,
+    };
+    await aprenant.save();
+
+    // Remove the uploaded image from the server's upload directory (optional)
+    // fs.unlinkSync(req.file.path);
+
+    return res.status(200).json({ message: 'aprenant profile image updated successfully', aprenant });
+  } catch (error) {
+    // console.log(error);
+    return res.status(500).json({ message: `Server error: ${error.message}` });
   }
 };
 

@@ -25,7 +25,6 @@ const NavBar = () => {
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(JSON.parse(localStorage.user));
-  console.log({ user });
   const navigate = useNavigate()
   // let { mentorId } = useParams()
   // let { aprenantId } = useParams()
@@ -181,7 +180,7 @@ const NavBar = () => {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src={""} // Use the profile image URL as the source
+                        src={user.avatarUrl} // Use the profile image URL as the source
                         alt="Profile"
                       />
 

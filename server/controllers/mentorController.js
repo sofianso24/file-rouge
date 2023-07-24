@@ -66,7 +66,7 @@ export const updateMentorProfile = async (req, res) => {
 // modifier son profilImage 
 
 export const updateMentorImage = async (req, res) => {
-  console.log(req.file);
+
   try {
 
     const mentorId = req.params.id;

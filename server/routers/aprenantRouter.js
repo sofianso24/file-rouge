@@ -2,7 +2,7 @@ import  Express  from "express";
 
 import {viewAprenantProfile,updateApprenantProfile,aprenantSessionHistory,
     getAvailableMentors,requestMentoring,getSpecificMentor,filtreMentorsByDomain,
-    filtreMentorsByPrice,filtreMentorsByRating,rateMentor, filtreMentorsByskill, filtreMentors }
+    filtreMentorsByPrice,filtreMentorsByRating,rateMentor, filtreMentorsByskill, filtreMentors, updateAprenantImage }
      from "../controllers/aprenantController.js"
      
 import {aprenantAutorisation,} from "../middelwares/jwt.js"
@@ -12,6 +12,7 @@ export const aprenantRouter = Express.Router()
 
 aprenantRouter.get("/viewAprenantProfile/:id",aprenantAutorisation,viewAprenantProfile)
 aprenantRouter.put("/updateApprenantProfile/:id",aprenantAutorisation,updateApprenantProfile)
+aprenantRouter.put("/updateApprenantProfileImage/:id",aprenantAutorisation,updateAprenantImage)
 aprenantRouter.get("/aprenantSessionHistory/:id",aprenantAutorisation,aprenantSessionHistory)
 aprenantRouter.get("/getAvailableMentors",getAvailableMentors)
 aprenantRouter.post("/requestMentoring",aprenantAutorisation,requestMentoring)

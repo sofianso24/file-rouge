@@ -17,22 +17,12 @@ export const createUser = async (req, res) => {
   const salt = bcrypt.genSaltSync(10);
 
   const hashedPassword = await bcrypt.hash(password, salt);
-  // const user = new User({
-  //   userRole,
-  //   firstName,
-  //   lastName,
-  //   mail,
-  //   password: hashedPassword,
-  // });
 
-  // await user.save();
 
   if (userRole === "admin") {
+
     try {
 
-      // const admin = new Admin({
-      //   userInherit: user._id,
-      // });
       const admin = new Admin({
         userRole,
         firstName,
@@ -47,11 +37,6 @@ export const createUser = async (req, res) => {
     }
   } else if (userRole === "aprenant") {
     try {
-      // const description = req.body.description;
-      // const niveauEtude = req.body.niveauEtude;
-      // const disponibilites = req.body.disponibilites;
-      // const but = req.body.but;
-
 
       const aprenant = new Aprenant({
         userRole,
@@ -67,16 +52,7 @@ export const createUser = async (req, res) => {
     }
   } else if (userRole === "mentor") {
     try {
-      // const about = req.body.about;
-      // const domain = req.body.domain;
-      // const disponibility = req.body.disponibility;
-      // const experience = req.body.experience;
-      // const services = req.body.services;
-      // const company = req.body.company;
-      // const skills = req.body.skills;
-      // const localisation = req.body.localisation;
-      // const responseTime = req.body.responseTime;
-      // const price = req.body.price;
+
       const mentor = new Mentor({
         userRole,
         firstName,
@@ -85,20 +61,7 @@ export const createUser = async (req, res) => {
         password: hashedPassword,
       });
 
-      // const mentor = new Mentor({
-      //   userInherit: user._id,
-      //   about,
-      //   description,
-      //   domain,
-      //   disponibility,
-      //   experience,
-      //   services,
-      //   company,
-      //   skills,
-      //   localisation,
-      //   responseTime,
-      //   price
-      // });
+     
       await mentor.save();
       res.json(mentor);
     } catch (error) {
@@ -138,7 +101,7 @@ export const logIn = async (req, res) => {
 
     res.cookie("userId", { userId });
     res.cookie("userRole", { userRole });
-    res.status(200).json({message:"user loged in succesfully",user: {userId, userRole}});
+    res.status(200).json({message:"user loged in succesfully",user: {userId, userRole, avatarUrl: user.image.url}});
     
   } catch (error) {
     console.log(error);

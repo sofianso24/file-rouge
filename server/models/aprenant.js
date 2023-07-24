@@ -32,8 +32,9 @@ const aprenantSchema = new Schema(
         min: 0,
         max: 100,
       },
-      image: {
-        type: String 
+      image:{
+        publicId : {type : String, default: ""},
+        url : {type : String, default: ""}
       },
       sessions: [
         {

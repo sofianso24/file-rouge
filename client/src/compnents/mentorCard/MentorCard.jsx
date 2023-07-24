@@ -9,7 +9,7 @@ const MentorCard = ({ mentor }) => {
       </div>
       <div className="sm:grid grid-cols-12  sm:space-x-8 ">
         <div className="col-span-7 md:col-span-5 relative ">
-          <a href={`/profilMentor/${mentor._id}`} target="_blank" className="relative w-full h-72 bg-center bg-cover inline-block rounded-lg overflow-hidden md:mb-20" style={{ backgroundImage: `url(${mentor.image})` }}>
+          <a href={`/profilMentor/${mentor._id}`} target="_blank" className="relative w-full h-72 bg-center bg-cover inline-block rounded-lg overflow-hidden md:mb-20" style={{ backgroundImage: `url(${mentor?.image?.url})` }}> 
             <div className="absolute block w-full h-full inset-x-0 bottom-0" style={{ backgroundImage: "linear-gradient(to top, rgba(48, 65, 96, 1.0), rgba(48, 65, 96, 0.2) 60%, rgba(48, 65, 96, 0.0))" }}>
               <div className="md:hidden absolute bottom-4 left-4" >
                 <h3 className="title text-2xl text-white font-bold mb-0">

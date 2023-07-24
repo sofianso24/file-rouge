@@ -7,11 +7,11 @@ const FormAprenant = ({ data, onCancel, refetch }) => {
 
     let { aprenantId } = useParams()
 
-    const servicesItems = ['Tasks', 'Chat', 'Calls'];
+    // const servicesItems = ['Tasks', 'Chat', 'Calls'];
 
     const [firstName, setFirstName] = useState(data?.firstName);
     const [lastName, setLastName] = useState(data?.lastName);
-    const [domainInteret, setDomainInteret] = useState(data?.domainInteret);
+    const [domainInteret, setDomainInteret] = useState(data?.domainInteret || []);
     const [goal, setGoal] = useState(data?.goal);
     const [about, setAbout] = useState(data?.about);
     const [disponibility, setDisponibility] = useState(data?.disponibility);
@@ -35,7 +35,7 @@ const FormAprenant = ({ data, onCancel, refetch }) => {
 
 
         // Make the API call with the formData object
-        await axios.put(`localhost:8082/aprenants/updateApprenantProfile/${aprenantId}`, formData,{
+        await axios.put(`http://localhost:8082/aprenants/updateApprenantProfile/${aprenantId}`, formData,{
             withCredentials: true
     
             })
@@ -333,7 +333,7 @@ const FormAprenant = ({ data, onCancel, refetch }) => {
                         Profile image
                     </label> */}
 
-                    <label className="font-medium text-white">Services</label>
+                    {/* <label className="font-medium text-white">Services</label>
                     <ul className="grid gap-y-2 gap-x-6 flex-wrap grid-cols-2 mt-3 text-white">
                         {servicesItems.map((item, idx) => (
                             <li key={idx} className="flex gap-x-3 text-sm">
@@ -352,7 +352,7 @@ const FormAprenant = ({ data, onCancel, refetch }) => {
                                 <label htmlFor={`service-${idx}`} className="cursor-pointer">{item}</label>
                             </li>
                         ))}
-                    </ul>
+                    </ul> */}
                 </div>
                 <button
                     type="submit"

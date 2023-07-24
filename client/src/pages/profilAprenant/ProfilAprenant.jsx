@@ -6,8 +6,12 @@ import axios from 'axios'
 import { useParams } from "react-router-dom";
 import FormAprenant from "../../compnents/AprenantForm";
 import ProgressComponent from "../../compnents/Progress";
+
+
+
 const ProfilAprenant = () => {
   let { aprenantId } = useParams()
+  const [profileImageURL, setProfileImageURL] = useState(null);
 
 
   const [isEditing, setIsEditing] = useState(false)
@@ -22,27 +26,53 @@ const ProfilAprenant = () => {
   // };
 
 
+  const handleImageChange = async (event) => {
+    event.preventDefault()
+    const formData = new FormData();
+    formData.append('image', event.target.files[0]);
+
+    try {
+      const response = await axios.put(`http://localhost:8082/aprenants/updateApprenantProfileImage/${aprenantId}`, formData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }).then(response => {
+        console.log(response.data);
+        setData(response?.data?.aprenant)
+      })
+
+      // Update the profile image URL in the NavBar component
+      setProfileImageURL(response?.data?.mentor?.image?.url);
+
+      // Handle the response from the server, if needed
+      console.log('Image uploaded successfully:', response?.data);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+  };
+
 
   useEffect(() => {
     // setIsloading(true)
 
 
     const fetchdata = async () => {
-      await axios.get(`http://localhost:8082/aprenants/viewAprenantProfile/${aprenantId}`)  
+
+      await axios.get(`http://localhost:8082/aprenants/viewAprenantProfile/${aprenantId}`, {withCredentials: true})
 
         .then(response => {
-          setData(response.data)
+
+          setData(response?.data.aprenant)
           // setIsloading(false)
-          console.log(response.data);
 
         })
         .catch(error => {
-          console.error('An error occurred while updating the profile:', error);
+          console.error('An error occurred while getting profile data:', error);
         });
     }
-    fetchdata() 
+    fetchdata()
   }, [refetch, aprenantId]);
-
 
   return (
     <>
@@ -83,10 +113,19 @@ const ProfilAprenant = () => {
                 </div>
               </div>
             </nav>
+            <div>
+              <input type="file" accept="image/*" onChange={handleImageChange} />
+            </div>
             <div className="-mt-12 w-full lg:w-1/2 xl:w-2/3 px-4 pb-8 align-bottom flex items-end">
               <div className="inline-block w-48 h-48 relative top-20 rounded-full overflow-hidden bg-white p-1 flex-none">
                 <div className="inline-block w-48 h-48 relative top-20 rounded-full overflow-hidden bg-white p-1 flex-none">
-                  {data?.image}
+                  <div>
+                    <img
+                      className="w-full h-full rounded-full"
+                      src={data?.image?.url}
+                    />
+                  </div>
+
                 </div>
                 {/* {selectedImage ? (
           <img
@@ -251,10 +290,10 @@ const ProfilAprenant = () => {
       <hr className="my-12" />
       <div className='ml-20 w-1/2 pb-28 '>
         <h2 className="text-slate-900 font-bold text-2xl mb-1" id="tags">
-        domain interet
+          domain interet
         </h2>
         <div className="mt-6">
-          {data?.domainInteret.map((domainInteret, index) => (
+          {data?.domainInteret?.map((domainInteret, index) => (
             <a
               key={index}
               href="#"
@@ -268,10 +307,10 @@ const ProfilAprenant = () => {
       <hr className="my-12" />
       <div className='ml-20 w-1/2 pb-28 '>
         <h2 className="text-slate-900 font-bold text-2xl mb-1" id="tags">
-        progress
+          progress
         </h2>
         <div className="mt-6">
-           <ProgressComponent/>
+          <ProgressComponent />
         </div>
       </div>
 

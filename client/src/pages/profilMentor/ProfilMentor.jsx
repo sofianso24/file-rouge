@@ -116,7 +116,7 @@ const ProfilMentor = () => {
                     <img
                       className="w-full h-full rounded-full"
                       src={data?.image?.url}
-                      alt="Mentor Photo"
+                     
                     />
                   </div>
 
